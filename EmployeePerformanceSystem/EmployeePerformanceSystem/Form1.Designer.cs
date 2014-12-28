@@ -32,7 +32,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.time_label = new System.Windows.Forms.Label();
-            this.punctal_time_label = new System.Windows.Forms.Label();
+            this.punctual_time_label = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // button1
@@ -59,23 +59,23 @@
             this.time_label.TabIndex = 1;
             this.time_label.Text = "time";
             // 
-            // punctal_time_label
+            // punctual_time_label
             // 
-            this.punctal_time_label.AutoSize = true;
-            this.punctal_time_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.punctal_time_label.Location = new System.Drawing.Point(429, 20);
-            this.punctal_time_label.Name = "punctal_time_label";
-            this.punctal_time_label.Size = new System.Drawing.Size(183, 20);
-            this.punctal_time_label.TabIndex = 2;
-            this.punctal_time_label.Text = "Punctual Time:  09:00:00";
-            this.punctal_time_label.Click += new System.EventHandler(this.punctal_time_label_Click);
+            this.punctual_time_label.AutoSize = true;
+            this.punctual_time_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.punctual_time_label.Location = new System.Drawing.Point(429, 20);
+            this.punctual_time_label.Name = "punctual_time_label";
+            this.punctual_time_label.Size = new System.Drawing.Size(183, 20);
+            this.punctual_time_label.TabIndex = 2;
+            this.punctual_time_label.Text = "Punctual Time:  09:00:00";
+            this.punctual_time_label.Click += new System.EventHandler(this.punctal_time_label_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(638, 504);
-            this.Controls.Add(this.punctal_time_label);
+            this.Controls.Add(this.punctual_time_label);
             this.Controls.Add(this.time_label);
             this.Controls.Add(this.button1);
             this.Name = "Form1";
@@ -90,7 +90,7 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Label time_label;
-        private System.Windows.Forms.Label punctal_time_label;
+        private System.Windows.Forms.Label punctual_time_label;
     }
 }
 

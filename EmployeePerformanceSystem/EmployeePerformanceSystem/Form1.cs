@@ -16,30 +16,42 @@ namespace EmployeePerformanceSystem
             // GLOBAL VARIABLES                                       --- ASK - Global Varaibales being assigned
                 private DateTime time_entered; // the time the employee signed in
 
-                private DateTime punctual_time = new DateTime(2009, 8, 1, 0, 0, 0); //make this into a const after you find 
+                private DateTime punctual_time = new DateTime(0001, 01, 01, 0, 0, 0); //make this into a const after you find 
                                                 //out the format to set it to 9am everyday.
 
                 private DateTime current_time; //this captures the current time and date
 
                 private bool ontime; //is the user on time? yes/no? (true, false)
 
-                private string DAY;
-                private int day;
+                private string CDAY;
+                private int cday;
+                private string PDAY;
+                private int pday;
 
-                private string MONTH;
-                private int month;
+                private string CMONTH;
+                private int cmonth;
+                private string PMONTH;
+                private int pmonth;
 
-                public string YEAR;
-                public int year;
+                private string CYEAR;
+                private int cyear;
+                private string PYEAR;
+                private int pyear;
 
-                private string HOURS;
-                private int hours;
+                private string CHOURS;
+                private int chours;
+                private string PHOURS;
+                private int phours;
 
-                private string MINUTES;
-                private int minutes;
+                private string CMINUTES;
+                private int cminutes;
+                private string PMINUTES;
+                private int pminutes;
 
-                private string SECONDS;
-                private int seconds;
+                private string CSECONDS;
+                private int cseconds;
+                private string PSECONDS;
+                private int pseconds;
                 
 
 
@@ -63,7 +75,33 @@ namespace EmployeePerformanceSystem
 
                 private void button1_Click(object sender, EventArgs e)
                 {
-                    time_entered = current_time;
+                    //MAKING all the 'pdates' the same as 'cdates'
+                    PDAY = CDAY;
+                    pday = cday;
+
+                    PMONTH = CMONTH;
+                    pmonth = cmonth;
+
+                    PYEAR = CYEAR;
+                    pyear = cyear;
+
+
+                    // SET PUNCTUAL TIME
+                    PHOURS = current_time.ToString("HH");
+                    phours = Convert.ToInt32(PHOURS);
+
+                    CMINUTES = current_time.ToString("mm");
+                    cminutes = Convert.ToInt32(CMINUTES);
+
+                    PSECONDS = current_time.ToString("ss");
+                    pseconds = Convert.ToInt32(PSECONDS);
+
+                    //this.punctual_time_label.Text = current_time.ToString("HH:mm:ss");
+
+
+                    this.punctual_time_label.Text = pseconds.ToString(); //TESTING PURPOSE
+
+
                     //here use DateTime time_entered to find the current time
                     if(time_entered <= punctual_time)
                     {      
@@ -81,44 +119,37 @@ namespace EmployeePerformanceSystem
 
                 private void timer1_Tick(object sender, EventArgs e)
                 {
+                    // FOR CURRENT TIME
                     current_time = DateTime.Now;
 
-                    DAY = current_time.ToString("dd");
-                    day = Convert.ToInt32(DAY);
+                    CDAY = current_time.ToString("dd");
+                    cday = Convert.ToInt32(CDAY);
 
-                    MONTH = current_time.ToString("mm");
-                    month = Convert.ToInt32(MONTH);
+                    CMONTH = current_time.ToString("mm");
+                    cmonth = Convert.ToInt32(CMONTH);
 
-                    YEAR = current_time.ToString("yyyy");
-                    year = Convert.ToInt32(YEAR);
+                    CYEAR = current_time.ToString("yyyy");
+                    cyear = Convert.ToInt32(CYEAR);
 
-                    HOURS = current_time.ToString("HH");
-                    hours = Convert.ToInt32(HOURS);
+                    CHOURS = current_time.ToString("HH");
+                    chours = Convert.ToInt32(CHOURS);
+                                
+                    CMINUTES = current_time.ToString("mm");
+                    cminutes = Convert.ToInt32(CMINUTES);
 
-                    /*
-                    MINUTES = current_time.ToString("M");
-                    minutes = Convert.ToInt32(MINUTES);
-                    */
-
-                    minutes = 00;
-
-                    
-                    SECONDS = current_time.ToString("ss");
-                    seconds = Convert.ToInt32(SECONDS);
+                    CSECONDS = current_time.ToString("ss");
+                    cseconds = Convert.ToInt32(CSECONDS);
                     
                     
                     this.time_label.Text = current_time.ToString("HH:mm:ss");
 
-                    //this.time_label.Text = hours.ToString();
+                    //this.time_label.Text = cminutes.ToString(); //TESTING PURPOSE
 
-                    
-
-                    
                 }
 
                 private void punctal_time_label_Click(object sender, EventArgs e)
                 {
-                    this.punctal_time_label.Text = punctual_time.ToString();
+                    //this.punctual_time_label.Text = punctual_time.ToString();
                 }
                 
         }
