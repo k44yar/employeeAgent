@@ -169,7 +169,7 @@ namespace EmployeePerformanceSystem
 
 
 
-
+        /*
         private void button1_Click(object sender, EventArgs e)
         {
             //this.punctual_time_label.Text = current_time.ToString("HH:mm:ss");
@@ -230,9 +230,87 @@ namespace EmployeePerformanceSystem
 
                 /*YOU NEED TO FIND A WAY IN WHICH YOU CAN MATCH THE EMPLOYEE TO THE LATES
                   MAYBE BY MAKING A FIELD WHICH TAKES EMP_ID, AND ONCE THIS HAS BEEN ENTERED
-                  THEN THIS BUTTON IS VISIBLE TO THE USER*/
+                  THEN THIS BUTTON IS VISIBLE TO THE USER
             }
+        }*/
+
+
+
+
+
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                //this.punctual_time_label.Text = current_time.ToString("HH:mm:ss");
+                EMP_ID_STRING = emp_id_field.Text;
+
+                if (System.Text.RegularExpressions.Regex.IsMatch(EMP_ID_STRING, "[^0-9]"))
+                {
+                    MessageBox.Show("Please enter only numbers.");
+                    emp_id_field.Clear();
+
+                }
+
+                else
+                {
+                    emp_id_number = Convert.ToInt32(EMP_ID_STRING);
+
+                    this.ID_Selected_label.Text = EMP_ID_STRING;
+                    //MAKING all the 'pdates' the same as 'cdates'
+                    PDAY = CDAY;
+                    pday = cday;
+                    PMONTH = CMONTH;
+                    pmonth = cmonth;
+                    PYEAR = CYEAR;
+                    pyear = cyear;
+                    entered_hours = chours;
+                    entered_minutes = cminutes;
+                    entered_seconds = cseconds;
+
+                    // SET PUNCTUAL TIME
+                    PHOURS = punctual_time.ToString("HH");
+                    phours = Convert.ToInt32(PHOURS);
+
+                    CMINUTES = punctual_time.ToString("mm");
+                    cminutes = Convert.ToInt32(CMINUTES);
+
+                    PSECONDS = punctual_time.ToString("ss");
+                    pseconds = Convert.ToInt32(PSECONDS);
+                    this.time_entered_label.Text = current_time.ToString("HH:mm:ss");
+                    // this.punctual_time_label.Text = pseconds.ToString(); //TESTING PURPOSE
+                    //here use DateTime time_entered to find the current time
+                    if (phours <= entered_hours)
+                    {
+                        if (phours <= entered_hours && pminutes <= entered_minutes)
+                        {
+
+                        }
+                        // this will check if the employee is late, if yes then this method will update the LATE row 
+                        //in the database EMPLOYEE table
+
+                        /* the receptionist can use IT. click the button which takes DateTime as a variable and check if its after
+                         9am to check if the employee is late*/
+
+                        /*YOU NEED TO FIND A WAY IN WHICH YOU CAN MATCH THE EMPLOYEE TO THE LATES
+                          MAYBE BY MAKING A FIELD WHICH TAKES EMP_ID, AND ONCE THIS HAS BEEN ENTERED
+                          THEN THIS BUTTON IS VISIBLE TO THE USER*/
+                    }
+                }
+            }
+            catch
+            {
+
+            }
+
         }
+
+
+
+
+
+
 
         private void timer1_Tick(object sender, EventArgs e)
         {
@@ -281,14 +359,33 @@ namespace EmployeePerformanceSystem
                
             if (checkInputs())
             {
-                SELECT_EMP_ID_STRING = search_emp_field.Text;
-                select_emp_id_number = Convert.ToInt32(SELECT_EMP_ID_STRING);
-                
-                //String commandString = "INSERT INTO tblstudent(studentID, studentNAME, studentADDRESS) VALUES (@ID, @name, @address)";
+                try
+                {
+                    SELECT_EMP_ID_STRING = search_emp_field.Text;
+                    
+                    if (System.Text.RegularExpressions.Regex.IsMatch(SELECT_EMP_ID_STRING, "[^0-9]"))
+                    {
+                        MessageBox.Show("Please enter only numbers.");
+                        search_emp_field.Clear();
 
-                //insertRecord(txtId.Text, txtName.Text, txtAddress.Text, commandString);
-                populateListBox();
-                //cleartxtBoxes();
+                    }
+
+                    else
+                    {
+                        select_emp_id_number = Convert.ToInt32(SELECT_EMP_ID_STRING);
+
+                        //String commandString = "INSERT INTO tblstudent(studentID, studentNAME, studentADDRESS) VALUES (@ID, @name, @address)";
+
+                        //insertRecord(txtId.Text, txtName.Text, txtAddress.Text, commandString);
+                        populateListBox();
+                        //cleartxtBoxes();
+                    }
+                }
+
+                catch
+                {
+
+                }
             }
 
         }
