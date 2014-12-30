@@ -88,9 +88,8 @@
             this.punctual_time_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.punctual_time_label.Location = new System.Drawing.Point(643, 20);
             this.punctual_time_label.Name = "punctual_time_label";
-            this.punctual_time_label.Size = new System.Drawing.Size(21, 20);
+            this.punctual_time_label.Size = new System.Drawing.Size(0, 20);
             this.punctual_time_label.TabIndex = 3;
-            this.punctual_time_label.Text = "...";
             // 
             // label1
             // 
@@ -169,7 +168,7 @@
             this.lbxEmployees.ItemHeight = 16;
             this.lbxEmployees.Location = new System.Drawing.Point(26, 193);
             this.lbxEmployees.Name = "lbxEmployees";
-            this.lbxEmployees.Size = new System.Drawing.Size(942, 36);
+            this.lbxEmployees.Size = new System.Drawing.Size(938, 36);
             this.lbxEmployees.TabIndex = 13;
             // 
             // label5

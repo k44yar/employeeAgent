@@ -72,15 +72,6 @@ namespace EmployeePerformanceSystem
         private int select_emp_id_number;
 
 
-        /*
-            int year = moment.Year;
-            int month;
-            int day;
-            int hour;
-            int minute;
-            int second;
-        */
-
         // --- ASK - This method is the first method run when the program starts. STARTING POINT
         public Form1()
         {
@@ -98,8 +89,7 @@ namespace EmployeePerformanceSystem
 
         public void populateListBox()
         {
-            mySqlConnection =
-                    new SqlCeConnection(@"Data Source=C:\Users\Sufian\AppData\Local\EmployeeDatabase.sdf");
+            mySqlConnection = new SqlCeConnection(@"Data Source=C:\Users\Sufian\AppData\Local\EmployeeDatabase.sdf");
 
             //String selcmd = "SELECT * FROM employee ORDER BY emp_id";
 
@@ -131,6 +121,39 @@ namespace EmployeePerformanceSystem
 
         }
 
+
+
+
+
+        /* UNDERNEATH YOU HAVE MANAGED TO UPDATE THE EMPLOYEE TABLE - HOWEVER ITS HARDCODED IT SETS LATE
+           TO 10, YOU NEED TO MAKE ANOTHER METHOD WHICH OBTAINS THE VALUE OF THE EMPLOYEE WHICH CAME IN LATE */
+
+        public void updateLates()
+        {
+            mySqlConnection = new SqlCeConnection(@"Data Source=C:\Users\Sufian\AppData\Local\EmployeeDatabase.sdf");
+
+            String updatecmd = "UPDATE employee SET late = 10 WHERE emp_id =" + emp_id_number;
+
+            SqlCeCommand mySqlCommand = new SqlCeCommand(updatecmd, mySqlConnection);
+
+            try
+            {
+                mySqlConnection.Open();
+
+                SqlCeDataReader mySqlDataReader = mySqlCommand.ExecuteReader();
+
+                lbxEmployees.Items.Clear();
+            }
+
+            catch (SqlCeException ex)
+            {
+                MessageBox.Show(" .." + ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
+
+
+
         public bool checkInputs()
         {
             bool rtnvalue = true;
@@ -143,99 +166,6 @@ namespace EmployeePerformanceSystem
 
             return (rtnvalue);
         }
-
-
-        /*public void insertRecord(String ID, String name, String address, String commandString)
-        {
-
-            try
-            {
-                SqlCeCommand cmdInsert = new SqlCeCommand(commandString, mySqlConnection);
-
-                cmdInsert.Parameters.AddWithValue("@ID", ID);
-                cmdInsert.Parameters.AddWithValue("@name", name);
-                cmdInsert.Parameters.AddWithValue("@address", address);
-                cmdInsert.ExecuteNonQuery();
-            }
-            catch (SqlCeException ex)
-            {
-                MessageBox.Show(ID + " .." + ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-        }*/
-
-
-
-
-
-
-        /*
-        private void button1_Click(object sender, EventArgs e)
-        {
-            //this.punctual_time_label.Text = current_time.ToString("HH:mm:ss");
-
-            EMP_ID_STRING = emp_id_field.Text;
-            emp_id_number = Convert.ToInt32(EMP_ID_STRING);
-
-            this.ID_Selected_label.Text = EMP_ID_STRING;
-
-            //MAKING all the 'pdates' the same as 'cdates'
-            PDAY = CDAY;
-            pday = cday;
-
-            PMONTH = CMONTH;
-            pmonth = cmonth;
-
-            PYEAR = CYEAR;
-            pyear = cyear;
-
-            entered_hours = chours;
-
-            entered_minutes = cminutes;
-
-            entered_seconds = cseconds;
-
-
-
-            // SET PUNCTUAL TIME
-            PHOURS = punctual_time.ToString("HH");
-            phours = Convert.ToInt32(PHOURS);
-
-            CMINUTES = punctual_time.ToString("mm");
-            cminutes = Convert.ToInt32(CMINUTES);
-
-            PSECONDS = punctual_time.ToString("ss");
-            pseconds = Convert.ToInt32(PSECONDS);
-
-
-
-            this.time_entered_label.Text = current_time.ToString("HH:mm:ss");
-            // this.punctual_time_label.Text = pseconds.ToString(); //TESTING PURPOSE
-
-
-            //here use DateTime time_entered to find the current time
-            if (phours <= entered_hours)
-            {
-                if (phours <= entered_hours && pminutes <= entered_minutes)
-                {
-
-                }
-
-
-                // this will check if the employee is late, if yes then this method will update the LATE row 
-                //in the database EMPLOYEE table
-
-                /* the receptionist can use IT. click the button which takes DateTime as a variable and check if its after
-                 9am to check if the employee is late*/
-
-                /*YOU NEED TO FIND A WAY IN WHICH YOU CAN MATCH THE EMPLOYEE TO THE LATES
-                  MAYBE BY MAKING A FIELD WHICH TAKES EMP_ID, AND ONCE THIS HAS BEEN ENTERED
-                  THEN THIS BUTTON IS VISIBLE TO THE USER
-            }
-        }*/
-
-
-
 
 
 
@@ -257,14 +187,17 @@ namespace EmployeePerformanceSystem
                 {
                     emp_id_number = Convert.ToInt32(EMP_ID_STRING);
 
+                    // PRINTING THE EMP_ID_STRING TO THE LABEL ON THE INTERFACE
                     this.ID_Selected_label.Text = EMP_ID_STRING;
-                    //MAKING all the 'pdates' the same as 'cdates'
+                    
+                    // MAKING all the 'pdates' the same as 'cdates'
                     PDAY = CDAY;
                     pday = cday;
                     PMONTH = CMONTH;
                     pmonth = cmonth;
                     PYEAR = CYEAR;
                     pyear = cyear;
+                    
                     entered_hours = chours;
                     entered_minutes = cminutes;
                     entered_seconds = cseconds;
@@ -278,25 +211,25 @@ namespace EmployeePerformanceSystem
 
                     PSECONDS = punctual_time.ToString("ss");
                     pseconds = Convert.ToInt32(PSECONDS);
+
+                    // SETTING TIME ENTERED ON INTERFACE "..."
                     this.time_entered_label.Text = current_time.ToString("HH:mm:ss");
-                    // this.punctual_time_label.Text = pseconds.ToString(); //TESTING PURPOSE
-                    //here use DateTime time_entered to find the current time
-                    if (phours <= entered_hours)
+
+
+                    // CHECKING IF THE EMPLOYEE HAS ENTERED THE BUILDING LATE
+                   
+                    // THIS WILL CHECK IF THE EMPLOYEE IS LATE, HOWEVER IT IS WITHIN 10AM
+                    if (phours == entered_hours && pminutes <= entered_minutes)
                     {
-                        if (phours <= entered_hours && pminutes <= entered_minutes)
-                        {
-
-                        }
-                        // this will check if the employee is late, if yes then this method will update the LATE row 
-                        //in the database EMPLOYEE table
-
-                        /* the receptionist can use IT. click the button which takes DateTime as a variable and check if its after
-                         9am to check if the employee is late*/
-
-                        /*YOU NEED TO FIND A WAY IN WHICH YOU CAN MATCH THE EMPLOYEE TO THE LATES
-                          MAYBE BY MAKING A FIELD WHICH TAKES EMP_ID, AND ONCE THIS HAS BEEN ENTERED
-                          THEN THIS BUTTON IS VISIBLE TO THE USER*/
+                        updateLates();
                     }
+
+                    // THIS WILL HAPPEN IF THE EMPLOYEE HAS ENTERED AT 10AM OR LATER (THIS IS JUST FOR HOURS)
+                    else if (phours < entered_hours)
+                    {
+                        updateLates();
+                    }
+
                 }
             }
             catch
@@ -308,10 +241,7 @@ namespace EmployeePerformanceSystem
 
 
 
-
-
-
-
+        // THE TIMER HERE IS PICKING UP THE CURRENT TIME
         private void timer1_Tick(object sender, EventArgs e)
         {
             // FOR CURRENT TIME
@@ -342,17 +272,7 @@ namespace EmployeePerformanceSystem
 
         }
 
-        private void punctal_time_label_Click(object sender, EventArgs e)
-        {
-            //this.punctual_time_label.Text = punctual_time.ToString();
-        }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-            //nothing yet
-
-            //this.emp_id.Text = "hello"; //TESTING PURPOSE to see what this does
-        }
 
         private void show_data_button_Click(object sender, EventArgs e)
         {
@@ -366,19 +286,15 @@ namespace EmployeePerformanceSystem
                     if (System.Text.RegularExpressions.Regex.IsMatch(SELECT_EMP_ID_STRING, "[^0-9]"))
                     {
                         MessageBox.Show("Please enter only numbers.");
+                        
                         search_emp_field.Clear();
-
                     }
 
                     else
                     {
                         select_emp_id_number = Convert.ToInt32(SELECT_EMP_ID_STRING);
 
-                        //String commandString = "INSERT INTO tblstudent(studentID, studentNAME, studentADDRESS) VALUES (@ID, @name, @address)";
-
-                        //insertRecord(txtId.Text, txtName.Text, txtAddress.Text, commandString);
                         populateListBox();
-                        //cleartxtBoxes();
                     }
                 }
 
@@ -391,6 +307,16 @@ namespace EmployeePerformanceSystem
         }
 
 
+
+        private void punctal_time_label_Click(object sender, EventArgs e)
+        {
+            //NOT NEEDED BUT HAS TO STAY OR APPLICATION CRASHES
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            //NOT NEEDED BUT HAS TO STAY OR APPLICATION CRASHES
+        }
 
     }
 }
