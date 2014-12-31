@@ -71,13 +71,17 @@ namespace EmployeePerformanceSystem
         private string SELECT_EMP_ID_STRING;
         private int select_emp_id_number;
 
+        private string LATE;
+        private int late;
+        private int yourlate;
+
 
         // --- ASK - This method is the first method run when the program starts. STARTING POINT
         public Form1()
         {
             InitializeComponent();
 
-            //populateListBox();
+            populateListBox();
 
             timer1.Start(); // starts timer
 
@@ -132,7 +136,8 @@ namespace EmployeePerformanceSystem
         {
             mySqlConnection = new SqlCeConnection(@"Data Source=C:\Users\Sufian\AppData\Local\EmployeeDatabase.sdf");
 
-            String updatecmd = "UPDATE employee SET late = 10 WHERE emp_id =" + emp_id_number;
+            //String LATEcmd = "SELECT late FROM employee WHERE emp_id =" + emp_id_number;
+            String updatecmd = "UPDATE employee SET late =" + yourlate + "WHERE emp_id =" + emp_id_number;
 
             SqlCeCommand mySqlCommand = new SqlCeCommand(updatecmd, mySqlConnection);
 
@@ -149,6 +154,42 @@ namespace EmployeePerformanceSystem
             {
                 MessageBox.Show(" .." + ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
+        }
+
+        public void selectLates()
+        {
+            mySqlConnection = new SqlCeConnection(@"Data Source=C:\Users\Sufian\AppData\Local\EmployeeDatabase.sdf");
+
+            String LATEcmd = "SELECT late FROM employee WHERE emp_id =" + select_emp_id_number;
+
+            SqlCeCommand LATESqlCommand = new SqlCeCommand(LATEcmd, mySqlConnection);
+
+            try
+            {
+                mySqlConnection.Open();
+
+                SqlCeDataReader LATESqlDataReader = LATESqlCommand.ExecuteReader();
+
+                lbxEmployees.Items.Clear();
+
+                while (LATESqlDataReader.Read())
+                {
+
+                    //lbxEmployees.Items.Add("Late: " + LATESqlDataReader["late"]); // TESTING
+                    LATE = LATESqlDataReader["late"].ToString();
+                    late = int.Parse(LATE);
+                    yourlate = late + 1;
+
+                }
+
+            }
+
+            catch (SqlCeException ex)
+            {
+                MessageBox.Show(" .." + ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
 
         }
 
@@ -171,6 +212,8 @@ namespace EmployeePerformanceSystem
 
         private void button1_Click(object sender, EventArgs e)
         {
+            selectLates();
+            
             try
             {
                 //this.punctual_time_label.Text = current_time.ToString("HH:mm:ss");
@@ -185,7 +228,9 @@ namespace EmployeePerformanceSystem
 
                 else
                 {
-                    emp_id_number = Convert.ToInt32(EMP_ID_STRING);
+                    emp_id_number = int.Parse(EMP_ID_STRING);
+                    ///////////////////////////////////////////////////////////////////////////////////////////////
+                    //selectLates();
 
                     // PRINTING THE EMP_ID_STRING TO THE LABEL ON THE INTERFACE
                     this.ID_Selected_label.Text = EMP_ID_STRING;
@@ -204,13 +249,13 @@ namespace EmployeePerformanceSystem
 
                     // SET PUNCTUAL TIME
                     PHOURS = punctual_time.ToString("HH");
-                    phours = Convert.ToInt32(PHOURS);
+                    phours = int.Parse(PHOURS);
 
                     CMINUTES = punctual_time.ToString("mm");
-                    cminutes = Convert.ToInt32(CMINUTES);
+                    cminutes = int.Parse(CMINUTES);
 
                     PSECONDS = punctual_time.ToString("ss");
-                    pseconds = Convert.ToInt32(PSECONDS);
+                    pseconds = int.Parse(PSECONDS);
 
                     // SETTING TIME ENTERED ON INTERFACE "..."
                     this.time_entered_label.Text = current_time.ToString("HH:mm:ss");
@@ -248,22 +293,22 @@ namespace EmployeePerformanceSystem
             current_time = DateTime.Now;
 
             CDAY = current_time.ToString("dd");
-            cday = Convert.ToInt32(CDAY);
+            cday = int.Parse(CDAY);
 
             CMONTH = current_time.ToString("mm");
-            cmonth = Convert.ToInt32(CMONTH);
+            cmonth = int.Parse(CMONTH);
 
             CYEAR = current_time.ToString("yyyy");
-            cyear = Convert.ToInt32(CYEAR);
+            cyear = int.Parse(CYEAR);
 
             CHOURS = current_time.ToString("HH");
-            chours = Convert.ToInt32(CHOURS);
+            chours = int.Parse(CHOURS);
 
             CMINUTES = current_time.ToString("mm");
-            cminutes = Convert.ToInt32(CMINUTES);
+            cminutes = int.Parse(CMINUTES);
 
             CSECONDS = current_time.ToString("ss");
-            cseconds = Convert.ToInt32(CSECONDS);
+            cseconds = int.Parse(CSECONDS);
 
 
             this.time_label.Text = current_time.ToString("HH:mm:ss");
@@ -292,7 +337,7 @@ namespace EmployeePerformanceSystem
 
                     else
                     {
-                        select_emp_id_number = Convert.ToInt32(SELECT_EMP_ID_STRING);
+                        select_emp_id_number = int.Parse(SELECT_EMP_ID_STRING);
 
                         populateListBox();
                     }

@@ -44,6 +44,8 @@
             this.lbxEmployees = new System.Windows.Forms.ListBox();
             this.label5 = new System.Windows.Forms.Label();
             this.search_emp_field = new System.Windows.Forms.TextBox();
+            this.button2 = new System.Windows.Forms.Button();
+            this.label6 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // button1
@@ -189,11 +191,31 @@
             this.search_emp_field.Size = new System.Drawing.Size(62, 26);
             this.search_emp_field.TabIndex = 15;
             // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(36, 313);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 16;
+            this.button2.Text = "button2";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(158, 318);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(35, 13);
+            this.label6.TabIndex = 17;
+            this.label6.Text = "label6";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(994, 639);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.search_emp_field);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.lbxEmployees);
@@ -232,6 +254,8 @@
         private System.Windows.Forms.ListBox lbxEmployees;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox search_emp_field;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Label label6;
     }
 }
 
