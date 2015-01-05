@@ -3,87 +3,109 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.SqlServerCe;
 
 namespace EmployeePerformanceSystem
 {
-    class Absence
+    public class Absence
     {
-        // GLOBAL VARIABLES                                       --- ASK - Global Varaibales being assigned
+            SqlCeConnection mySqlConnection; //     --- ASK - For sql connection
+
+            // GLOBAL VARIABLES                                       --- ASK - Global Varaibales being assigned
             private string type;
-            private string date;
-            private string explained_absence;
-            private string unexplained_absence;
-            private int attendance; 
+
+            // DATE IS HERE TO FIND OUT ATTENDANCE (CURRENT_DATE - START_DATE)
+            private string DATE;
+            private DateTime date;
+
+            private string START_DATE;
+            private DateTime start_date;
+
+            private int attendance;
+
+            private string EXPLAINED_ABSENCES;
+            private int explained_absences;
+
+            private string UNEXPLAINED_ABSENCES;
+            private int unexplained_absences;
+
+            private int a = 0;
+
+            private int TESTemp;
+
+            // I HAVE TRIED TO USE THE GET METHOD HERE TO GET THE select_emp_id_number - BUT I GET ERRORS UNDERLINED IN RED
+            //Form1 test = new Form1();
+            //int a = test.get_select_emp_id_number();         
 
 
+            private Form1 form1;
 
-       // ACCESSOR METHOD FOR type
-            //This method lets me access the data stored in type - this method must be used as the data is private
-            public string getType()
+            public Absence(Form1 form1)
             {
-                return type;
+                this.form1 = form1;
             }
 
-      // MUTATOR METHOD FOR type
-            public void obtainType()
+            public void MyFunction()
             {
-                //the new value must be first obtained from the database and then set to type
-
-                //type = newValue;
+                 a = form1.get_select_emp_id_number();
+                 TESTemp = a + 100;
             }
 
-      // ACCESSOR METHOD FOR type
-            //This method lets me access the data stored in data - this method must be used as the data is private
-            public string getDate()
+            public int getTESTemp()
             {
-                return date;
+                MyFunction();
+                return TESTemp;
             }
 
-      // MUTATOR METHOD FOR type
-            public void obtainDate()
-            {
-                //the new value must be first obtained from the database and then set to date
-
-                //date = newValue;
-            }
-
-
-      // getEmpId() will be called somewhere in this class as it will be needed 
-      /*      public void getEmpId()
-            {
-
-                // TODO: place method code here 
-
-            }
-      */
             
-            public void obtainExplainedAbsence()
+
+            public void obtainData()
             {
+                //a = 1;
+
+
                 //the new value must be first obtained from the database and then set to explained_absence
 
-                //explained_absence = newValue;
+                mySqlConnection = new SqlCeConnection(@"Data Source=C:\Users\Sufian\AppData\Local\EmployeeDatabase.sdf");
+
+                String ABSENCEScmd = "SELECT explained_absences, unexplained_absences, start_date FROM employee WHERE emp_id =" + a;
+
+                SqlCeCommand ABSENCESSqlCommand = new SqlCeCommand(ABSENCEScmd, mySqlConnection);
+
+                try
+                {
+                    mySqlConnection.Open();
+
+                    SqlCeDataReader ABSENCESSqlDataReader = ABSENCESSqlCommand.ExecuteReader();
+
+                    //lbxEmployees.Items.Clear();
+
+                    while (ABSENCESSqlDataReader.Read())
+                    {
+                        EXPLAINED_ABSENCES = ABSENCESSqlDataReader["explained_absences"].ToString();
+                        explained_absences = int.Parse(EXPLAINED_ABSENCES);
+
+                        UNEXPLAINED_ABSENCES = ABSENCESSqlDataReader["unexplained_absences"].ToString();
+                        unexplained_absences = int.Parse(UNEXPLAINED_ABSENCES); 
+             
+                        START_DATE = ABSENCESSqlDataReader["start_time"].ToString();       
+                    }
+
+                    ///////////////////////////////////////////////////////////////////////////////
+                    //TESTemp = a + 100;
+
+                }
+
+                catch (SqlCeException ex)
+                {
+                     //MessageBox.Show(" .." + ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+
             }
 
-            public void obtainUnexplainedAbsence()
-            {
-                //the new value must be first obtained from the database and then set to unexplained_absence
+        
 
-                //unexplained_absence = newValue;
-            }
-
-            public void updateExplainedAbsence()
-            {
-
-                //this column in the database will be incremented each time an explained absence occurs
-
-            }
-
-            public void updatedUnexplainedAbsence()
-            {
-
-                //this column in the database will be incremented each time an unexplained absence occurs
-
-            }
 
             public void calculateAttendance()
             {
@@ -106,18 +128,14 @@ namespace EmployeePerformanceSystem
                 return attendance;
             }
 
-            public string getExplainedAbsense()
+            public int getExplainedAbsense()
             {
-
-                return explained_absence;
-
+                return explained_absences;
             }
 
-            public string getUnexplainedAbsense()
+            public int getUnexplainedAbsense()
             {
-
-                return unexplained_absence;
-
+                return unexplained_absences;
             }        
 
     } // end of Absence class definition

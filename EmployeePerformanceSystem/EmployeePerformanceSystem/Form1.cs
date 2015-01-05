@@ -26,6 +26,7 @@ namespace EmployeePerformanceSystem
 
         private bool ontime; //is the user on time? yes/no? (true, false)
 
+        // for days
         private string CDAY;
         private int cday;
         private string PDAY;
@@ -41,6 +42,8 @@ namespace EmployeePerformanceSystem
         private string PYEAR;
         private int pyear;
 
+
+        // for time
         private string CHOURS;
         private int chours;
         private string PHOURS;
@@ -77,6 +80,7 @@ namespace EmployeePerformanceSystem
 
 
         // --- ASK - This method is the first method run when the program starts. STARTING POINT
+        
         public Form1()
         {
             InitializeComponent();
@@ -86,6 +90,39 @@ namespace EmployeePerformanceSystem
             timer1.Start(); // starts timer
 
             this.punctual_time_label.Text = punctual_time.ToString("HH:mm:ss");
+
+        }
+        
+
+
+        // THE TIMER HERE IS PICKING UP THE CURRENT TIME
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            // FOR CURRENT TIME
+            current_time = DateTime.Now;
+
+            CDAY = current_time.ToString("dd");
+            cday = int.Parse(CDAY);
+
+            CMONTH = current_time.ToString("mm");
+            cmonth = int.Parse(CMONTH);
+
+            CYEAR = current_time.ToString("yyyy");
+            cyear = int.Parse(CYEAR);
+
+            CHOURS = current_time.ToString("HH");
+            chours = int.Parse(CHOURS);
+
+            CMINUTES = current_time.ToString("mm");
+            cminutes = int.Parse(CMINUTES);
+
+            CSECONDS = current_time.ToString("ss");
+            cseconds = int.Parse(CSECONDS);
+
+
+            this.time_label.Text = current_time.ToString("HH:mm:ss");
+
+            //this.time_label.Text = cminutes.ToString(); //TESTING PURPOSE
 
         }
 
@@ -235,17 +272,21 @@ namespace EmployeePerformanceSystem
                     // PRINTING THE EMP_ID_STRING TO THE LABEL ON THE INTERFACE
                     this.ID_Selected_label.Text = EMP_ID_STRING;
                     
+                    // NOT NEEDED HERE - THIS WOULD BE NEEDED FOR ATTENDANCE
                     // MAKING all the 'pdates' the same as 'cdates'
+                    /*
                     PDAY = CDAY;
                     pday = cday;
                     PMONTH = CMONTH;
                     pmonth = cmonth;
                     PYEAR = CYEAR;
                     pyear = cyear;
-                    
+                    */
+
                     entered_hours = chours;
                     entered_minutes = cminutes;
                     entered_seconds = cseconds;
+                    
 
                     // SET PUNCTUAL TIME
                     PHOURS = punctual_time.ToString("HH");
@@ -286,39 +327,6 @@ namespace EmployeePerformanceSystem
 
 
 
-        // THE TIMER HERE IS PICKING UP THE CURRENT TIME
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            // FOR CURRENT TIME
-            current_time = DateTime.Now;
-
-            CDAY = current_time.ToString("dd");
-            cday = int.Parse(CDAY);
-
-            CMONTH = current_time.ToString("mm");
-            cmonth = int.Parse(CMONTH);
-
-            CYEAR = current_time.ToString("yyyy");
-            cyear = int.Parse(CYEAR);
-
-            CHOURS = current_time.ToString("HH");
-            chours = int.Parse(CHOURS);
-
-            CMINUTES = current_time.ToString("mm");
-            cminutes = int.Parse(CMINUTES);
-
-            CSECONDS = current_time.ToString("ss");
-            cseconds = int.Parse(CSECONDS);
-
-
-            this.time_label.Text = current_time.ToString("HH:mm:ss");
-
-            //this.time_label.Text = cminutes.ToString(); //TESTING PURPOSE
-
-        }
-
-
-
         private void show_data_button_Click(object sender, EventArgs e)
         {
                
@@ -351,6 +359,49 @@ namespace EmployeePerformanceSystem
 
         }
 
+        /*
+        DateTime aa = new DateTime(2000, 01, 01, 09, 2, 00);
+        DateTime bb = new DateTime(0500, 01, 01, 09, 2, 00);
+        DateTime zz;
+
+        System.TimeSpan diff1 = bb - aa;
+
+        zz = aa - bb;
+        */
+
+
+
+
+
+
+        // I AM TRYING TO USE THIS GET METHOD IN THE 'Absences.cs' CLASS
+        public int get_select_emp_id_number()
+        {
+            return select_emp_id_number;
+        }
+
+
+        int ggg = 0;
+
+        private Absence absence;
+
+            public Form1(Absence absence)
+            {
+                this.absence = absence;
+            }
+
+            private void MyFunction()
+            {
+                 ggg = absence.getTESTemp();
+            }
+
+            // how do i use ggg? its always set to 0;
+
+
+
+
+
+
 
 
         private void punctal_time_label_Click(object sender, EventArgs e)
@@ -361,6 +412,15 @@ namespace EmployeePerformanceSystem
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             //NOT NEEDED BUT HAS TO STAY OR APPLICATION CRASHES
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            //ggg = absence.getTESTemp();
+            MyFunction();
+            //absence.obtainData();
+            //absence.obtainData(select_emp_id_number); // you gave to add int a in the method struct
+            this.label6.Text = ggg.ToString();
         }
 
     }
