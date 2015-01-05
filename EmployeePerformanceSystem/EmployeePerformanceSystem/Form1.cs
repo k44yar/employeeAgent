@@ -78,6 +78,8 @@ namespace EmployeePerformanceSystem
         private int late;
         private int yourlate;
 
+        DateTime eg_start_date;
+
 
         // --- ASK - This method is the first method run when the program starts. STARTING POINT
         
@@ -148,10 +150,13 @@ namespace EmployeePerformanceSystem
 
                 while (mySqlDataReader.Read())
                 {
+                    // THIS IS FOR TESTING - example of using the datetime to subtract
+                    string zzz = mySqlDataReader["start_date"].ToString();
+                    eg_start_date = DateTime.Parse(zzz);
 
                     lbxEmployees.Items.Add("ID: " + mySqlDataReader["emp_id"] + "   Name: " + mySqlDataReader["name"] + "   Job Role: " + mySqlDataReader["job_role"] + "   Start Date " + mySqlDataReader["start_date"] + "   Late: " + mySqlDataReader["late"] + "   Explained Absences: " + mySqlDataReader["explained_absences"] + "   Unexplained Absences: " + mySqlDataReader["unexplained_absences"]);
-
                 }
+
             }
 
             catch (SqlCeException ex)
@@ -359,16 +364,32 @@ namespace EmployeePerformanceSystem
 
         }
 
-        /*
-        DateTime aa = new DateTime(2000, 01, 01, 09, 2, 00);
-        DateTime bb = new DateTime(0500, 01, 01, 09, 2, 00);
-        DateTime zz;
 
-        System.TimeSpan diff1 = bb - aa;
+      /*
+        System.DateTime date2 = new DateTime(2001, 01, 01);
+        System.DateTime date1 = new DateTime(2000, 05, 09);
 
-        zz = aa - bb;
-        */
+        // use this to find out the attendance - THIS IS AN EXAMPLE
+        private void dateFunction(DateTime date2, DateTime date1)
+        {
+            System.TimeSpan diff1 = date2.Subtract(date1);
+            
+            lbxEmployees.Items.Add("Date 2: " + date2 + "..... " + " Date 1: " + date1 + "..... " + " diiference is " + diff1.Days + " days."); // TESTING
+        } 
+      */
 
+      
+        //System.DateTime date2 = new DateTime(2001, 01, 01);
+        //.DateTime date1 = new DateTime(2000, 05, 09);
+
+        // use this to find out the attendance - THIS IS AN EXAMPLE
+        private void dateFunction(DateTime current_time, DateTime eg_start_date)
+        {
+            System.TimeSpan diff1 = current_time.Subtract(eg_start_date);
+            
+            lbxEmployees.Items.Add("Today: " + current_time.ToShortDateString() + "..... " + " Start Date: " + eg_start_date.ToShortDateString() + "..... " + " diiference is " + diff1.Days + " days."); // TESTING
+        } 
+      
 
 
 
@@ -421,6 +442,11 @@ namespace EmployeePerformanceSystem
             //absence.obtainData();
             //absence.obtainData(select_emp_id_number); // you gave to add int a in the method struct
             this.label6.Text = ggg.ToString();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            dateFunction(current_time, eg_start_date);
         }
 
     }

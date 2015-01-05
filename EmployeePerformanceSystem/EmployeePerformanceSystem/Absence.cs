@@ -120,6 +120,16 @@ namespace EmployeePerformanceSystem
                 data from the database and setting them to the private variables.*/
 
                 //attendance = newValue;
+
+                /*
+                    DateTime aa = new DateTime(2000, 01, 01, 09, 2, 00);
+                    DateTime bb = new DateTime(0500, 01, 01, 09, 2, 00);
+                    DateTime zz;
+
+                    System.TimeSpan diff1 = bb - aa;
+
+                    zz = aa - bb;
+                */
                 
             }
 
