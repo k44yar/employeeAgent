@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlServerCe;
+using System.IO;
 
 namespace EmployeePerformanceSystem
 {
@@ -33,31 +34,67 @@ namespace EmployeePerformanceSystem
 
             private int TESTemp;
 
-            // I HAVE TRIED TO USE THE GET METHOD HERE TO GET THE select_emp_id_number - BUT I GET ERRORS UNDERLINED IN RED
-            //Form1 test = new Form1();
-            //int a = test.get_select_emp_id_number();         
-
-
-            private Form1 form1;
-
-            public Absence(Form1 form1)
-            {
-                this.form1 = form1;
-            }
-
-            public void MyFunction()
-            {
-                 a = form1.get_select_emp_id_number();
-                 TESTemp = a + 100;
-            }
-
-            public int getTESTemp()
-            {
-                MyFunction();
-                return TESTemp;
-            }
+            private DateTime current_date = DateTime.Now;
 
             
+
+
+
+
+
+
+
+            public static int get_select_emp_id_number(int ReceiveFormForm1)
+            {
+                int SendToForm1 = ReceiveFormForm1 + 100;
+                return SendToForm1;
+            }
+
+            public static void checkEmp(int abc)
+            {
+                int def = abc + 100;
+
+                //Punctuality.WriteToLogFile(def.ToString());
+
+                    string getmsg = def.ToString();
+
+                    DateTime theDate;
+                    theDate = DateTime.Now;
+                    string tmp = theDate.Day.ToString().PadLeft(2, '0');
+                    tmp = tmp + theDate.Month.ToString().PadLeft(2, '0');
+                    tmp = tmp + theDate.Year.ToString().PadLeft(4, '0');
+                    StreamWriter SW;
+                    String LogFile;
+                    LogFile = "C:\\Test\\" + tmp + ".log";
+                    if (File.Exists(LogFile))
+                    {
+                        SW = File.AppendText(LogFile);
+                        if (getmsg == "" || getmsg == "SEND" || getmsg == "RECEIVE" || getmsg == "RECEIVE COMPLETE" || getmsg == "START: SEND-RECEIVE" || getmsg == "SEND COMPLETE")
+                        {
+                            SW.WriteLine(getmsg);
+                        }
+                        else
+                        {
+                            SW.WriteLine("  TIME : " + DateTime.Now + " | " + getmsg);
+                        }
+                        //SW.Close();            
+                    }
+                    else
+                    {
+                        SW = File.CreateText("C:\\Test\\" + tmp + ".log");
+                        if (getmsg == "" || getmsg == "SEND" || getmsg == "RECEIVE" || getmsg == "RECEIVE COMPLETE" || getmsg == "START: SEND-RECEIVE" || getmsg == "SEND COMPLETE")
+                        {
+                            SW.WriteLine(getmsg);
+                        }
+                        else
+                        {
+                            SW.WriteLine("  TIME : " + DateTime.Now + " | " + getmsg);
+                        }
+                    }
+                    SW.Close();
+
+            }
+
 
             public void obtainData()
             {
@@ -119,17 +156,12 @@ namespace EmployeePerformanceSystem
                 attended days, they will not be subtracted as the employee gets paid holidays). The obtain methods are obtaining the
                 data from the database and setting them to the private variables.*/
 
-                //attendance = newValue;
-
-                /*
-                    DateTime aa = new DateTime(2000, 01, 01, 09, 2, 00);
-                    DateTime bb = new DateTime(0500, 01, 01, 09, 2, 00);
-                    DateTime zz;
-
-                    System.TimeSpan diff1 = bb - aa;
-
-                    zz = aa - bb;
-                */
+                // use this to find out the attendance - THIS IS AN EXAMPLE
+                
+                    //System.TimeSpan diff1 = current_time.Subtract(START_DATE);
+            
+                    //lbxEmployees.Items.Add("Today: " + current_time.ToShortDateString() + "..... " + " Start Date: " + eg_start_date.ToShortDateString() + "..... " + " diiference is " + diff1.Days + " days."); // TESTING
+                
                 
             }
 

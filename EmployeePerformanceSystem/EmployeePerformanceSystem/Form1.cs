@@ -24,6 +24,9 @@ namespace EmployeePerformanceSystem
 
         private DateTime current_time; //this captures the current time and date
 
+        //private DateTime current_date = DateTime.Now; TESTING PURPOSES
+
+
         private bool ontime; //is the user on time? yes/no? (true, false)
 
         // for days
@@ -93,6 +96,7 @@ namespace EmployeePerformanceSystem
 
             this.punctual_time_label.Text = punctual_time.ToString("HH:mm:ss");
 
+            //this.label6.Text = current_date.ToString("dd/MM/yyyy"); TESTING PURPOSE
         }
         
 
@@ -334,7 +338,9 @@ namespace EmployeePerformanceSystem
 
         private void show_data_button_Click(object sender, EventArgs e)
         {
-               
+            
+            //Absence.AbsenceWriteToLogFile("Absence "); 
+
             if (checkInputs())
             {
                 try
@@ -352,6 +358,14 @@ namespace EmployeePerformanceSystem
                     {
                         select_emp_id_number = int.Parse(SELECT_EMP_ID_STRING);
 
+                        Absence.checkEmp(select_emp_id_number);
+                        
+                        //
+                        int ReceiveFormAbsence = 0;
+                        ReceiveFormAbsence = Absence.get_select_emp_id_number(select_emp_id_number);
+                        textBox2.Text = ReceiveFormAbsence.ToString();
+                        //
+
                         populateListBox();
                     }
                 }
@@ -364,24 +378,8 @@ namespace EmployeePerformanceSystem
 
         }
 
-
-      /*
-        System.DateTime date2 = new DateTime(2001, 01, 01);
-        System.DateTime date1 = new DateTime(2000, 05, 09);
-
-        // use this to find out the attendance - THIS IS AN EXAMPLE
-        private void dateFunction(DateTime date2, DateTime date1)
-        {
-            System.TimeSpan diff1 = date2.Subtract(date1);
-            
-            lbxEmployees.Items.Add("Date 2: " + date2 + "..... " + " Date 1: " + date1 + "..... " + " diiference is " + diff1.Days + " days."); // TESTING
-        } 
-      */
-
-      
-        //System.DateTime date2 = new DateTime(2001, 01, 01);
-        //.DateTime date1 = new DateTime(2000, 05, 09);
-
+     
+        /* KEEP THIS JUST INCASE
         // use this to find out the attendance - THIS IS AN EXAMPLE
         private void dateFunction(DateTime current_time, DateTime eg_start_date)
         {
@@ -389,7 +387,7 @@ namespace EmployeePerformanceSystem
             
             lbxEmployees.Items.Add("Today: " + current_time.ToShortDateString() + "..... " + " Start Date: " + eg_start_date.ToShortDateString() + "..... " + " diiference is " + diff1.Days + " days."); // TESTING
         } 
-      
+        */
 
 
 
@@ -402,29 +400,6 @@ namespace EmployeePerformanceSystem
         }
 
 
-        int ggg = 0;
-
-        private Absence absence;
-
-            public Form1(Absence absence)
-            {
-                this.absence = absence;
-            }
-
-            private void MyFunction()
-            {
-                 ggg = absence.getTESTemp();
-            }
-
-            // how do i use ggg? its always set to 0;
-
-
-
-
-
-
-
-
         private void punctal_time_label_Click(object sender, EventArgs e)
         {
             //NOT NEEDED BUT HAS TO STAY OR APPLICATION CRASHES
@@ -435,18 +410,16 @@ namespace EmployeePerformanceSystem
             //NOT NEEDED BUT HAS TO STAY OR APPLICATION CRASHES
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            //ggg = absence.getTESTemp();
-            MyFunction();
-            //absence.obtainData();
-            //absence.obtainData(select_emp_id_number); // you gave to add int a in the method struct
-            this.label6.Text = ggg.ToString();
-        }
+
 
         private void button3_Click(object sender, EventArgs e)
         {
-            dateFunction(current_time, eg_start_date);
+            //dateFunction(current_time, eg_start_date);
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            //
         }
 
     }
