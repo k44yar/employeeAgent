@@ -39,23 +39,97 @@ namespace EmployeePerformanceSystem
             
 
 
-
-
-
-
-
+            // this sends back the select_emp_id_number back to form1.cs
             public static int get_select_emp_id_number(int ReceiveFormForm1)
             {
                 int SendToForm1 = ReceiveFormForm1 + 100;
                 return SendToForm1;
             }
 
+
+
+            // this sends back the select_emp_id_number back to form1.cs
+            public static DateTime get_start_date(DateTime start_date_)
+            {
+                DateTime SendToForm2 = start_date_.AddDays(10);
+                return SendToForm2;
+            }
+
+
+            // this sends back the select_emp_id_number back to form1.cs
+            public static int get_explained_absences(int explained)
+            {
+                int SendToForm3 = explained + 50;
+                return SendToForm3;
+            }
+
+
+            // this sends back the select_emp_id_number back to form1.cs
+            public static int get_unexplained_absences(int unexplained)
+            {
+                int SendToForm4 = unexplained + 150;
+                return SendToForm4;
+            }
+
+
+            public static void checkStartDate(DateTime abc)
+            {
+                DateTime def = abc.AddDays(10);
+
+                //Punctuality.WriteToLogFile(def.ToString());
+
+                // this is setting the select_emp_id_number to getmsg so the below code can adapt to it
+                string getmsg = def.ToString();
+
+                DateTime theDate;
+                theDate = DateTime.Now;
+                string tmp = theDate.Day.ToString().PadLeft(2, '0');
+                tmp = tmp + theDate.Month.ToString().PadLeft(2, '0');
+                tmp = tmp + theDate.Year.ToString().PadLeft(4, '0');
+                StreamWriter SW;
+                String LogFile;
+                LogFile = "C:\\Test\\" + tmp + ".log";
+                if (File.Exists(LogFile))
+                {
+                    SW = File.AppendText(LogFile);
+                    if (getmsg == "" || getmsg == "SEND" || getmsg == "RECEIVE" || getmsg == "RECEIVE COMPLETE" || getmsg == "START: SEND-RECEIVE" || getmsg == "SEND COMPLETE")
+                    {
+                        SW.WriteLine(getmsg);
+                    }
+                    else
+                    {
+                        SW.WriteLine("  TIME : " + DateTime.Now + " | " + getmsg);
+                    }
+                    //SW.Close();            
+                }
+                else
+                {
+                    SW = File.CreateText("C:\\Test\\" + tmp + ".log");
+                    if (getmsg == "" || getmsg == "SEND" || getmsg == "RECEIVE" || getmsg == "RECEIVE COMPLETE" || getmsg == "START: SEND-RECEIVE" || getmsg == "SEND COMPLETE")
+                    {
+                        SW.WriteLine(getmsg);
+                    }
+                    else
+                    {
+                        SW.WriteLine("  TIME : " + DateTime.Now + " | " + getmsg);
+                    }
+                }
+                SW.Close();
+
+            }
+
+            
+
+
+
+            // this is logging the emp id and writing the manipulated data to a txt file for debugging purposes
             public static void checkEmp(int abc)
             {
                 int def = abc + 100;
 
                 //Punctuality.WriteToLogFile(def.ToString());
-
+                    
+                    // this is setting the select_emp_id_number to getmsg so the below code can adapt to it
                     string getmsg = def.ToString();
 
                     DateTime theDate;

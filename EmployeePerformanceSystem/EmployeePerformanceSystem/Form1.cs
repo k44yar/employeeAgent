@@ -81,7 +81,9 @@ namespace EmployeePerformanceSystem
         private int late;
         private int yourlate;
 
-        DateTime eg_start_date;
+        DateTime send_start_date;
+        int send_explained_absences;
+        int send_unexplained_absences;
 
 
         // --- ASK - This method is the first method run when the program starts. STARTING POINT
@@ -155,10 +157,22 @@ namespace EmployeePerformanceSystem
                 while (mySqlDataReader.Read())
                 {
                     // THIS IS FOR TESTING - example of using the datetime to subtract
-                    string zzz = mySqlDataReader["start_date"].ToString();
-                    eg_start_date = DateTime.Parse(zzz);
+                    //send_start_date = DateTime.Parse(mySqlDataReader["start_date"].ToString());
+                    
 
                     lbxEmployees.Items.Add("ID: " + mySqlDataReader["emp_id"] + "   Name: " + mySqlDataReader["name"] + "   Job Role: " + mySqlDataReader["job_role"] + "   Start Date " + mySqlDataReader["start_date"] + "   Late: " + mySqlDataReader["late"] + "   Explained Absences: " + mySqlDataReader["explained_absences"] + "   Unexplained Absences: " + mySqlDataReader["unexplained_absences"]);
+
+                    // THIS IS NEEDED FOR THE ABSENCE CLASS
+
+                    string zzz = mySqlDataReader["start_date"].ToString();
+                    send_start_date = DateTime.Parse(zzz);
+
+                    string yyy = mySqlDataReader["explained_absences"].ToString();
+                    send_explained_absences = int.Parse(yyy);
+
+                    string xxx = mySqlDataReader["unexplained_absences"].ToString();
+                    send_unexplained_absences = int.Parse(xxx);
+
                 }
 
             }
@@ -178,66 +192,67 @@ namespace EmployeePerformanceSystem
         /* UNDERNEATH YOU HAVE MANAGED TO UPDATE THE EMPLOYEE TABLE - HOWEVER ITS HARDCODED IT SETS LATE
            TO 10, YOU NEED TO MAKE ANOTHER METHOD WHICH OBTAINS THE VALUE OF THE EMPLOYEE WHICH CAME IN LATE */
 
-        public void updateLates()
-        {
-            mySqlConnection = new SqlCeConnection(@"Data Source=C:\Users\Sufian\AppData\Local\EmployeeDatabase.sdf");
+                                                               //REGARDING LATES
+                                                                public void updateLates()
+                                                                {
+                                                                    mySqlConnection = new SqlCeConnection(@"Data Source=C:\Users\Sufian\AppData\Local\EmployeeDatabase.sdf");
 
-            //String LATEcmd = "SELECT late FROM employee WHERE emp_id =" + emp_id_number;
-            String updatecmd = "UPDATE employee SET late =" + yourlate + "WHERE emp_id =" + emp_id_number;
+                                                                    //String LATEcmd = "SELECT late FROM employee WHERE emp_id =" + emp_id_number;
+                                                                    String updatecmd = "UPDATE employee SET late =" + yourlate + "WHERE emp_id =" + emp_id_number;
 
-            SqlCeCommand mySqlCommand = new SqlCeCommand(updatecmd, mySqlConnection);
+                                                                    SqlCeCommand mySqlCommand = new SqlCeCommand(updatecmd, mySqlConnection);
 
-            try
-            {
-                mySqlConnection.Open();
+                                                                    try
+                                                                    {
+                                                                        mySqlConnection.Open();
 
-                SqlCeDataReader mySqlDataReader = mySqlCommand.ExecuteReader();
+                                                                        SqlCeDataReader mySqlDataReader = mySqlCommand.ExecuteReader();
 
-                lbxEmployees.Items.Clear();
-            }
+                                                                        lbxEmployees.Items.Clear();
+                                                                    }
 
-            catch (SqlCeException ex)
-            {
-                MessageBox.Show(" .." + ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+                                                                    catch (SqlCeException ex)
+                                                                    {
+                                                                        MessageBox.Show(" .." + ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                                    }
 
-        }
+                                                                }
 
-        public void selectLates()
-        {
-            mySqlConnection = new SqlCeConnection(@"Data Source=C:\Users\Sufian\AppData\Local\EmployeeDatabase.sdf");
+                                                                public void selectLates()
+                                                                {
+                                                                    mySqlConnection = new SqlCeConnection(@"Data Source=C:\Users\Sufian\AppData\Local\EmployeeDatabase.sdf");
 
-            String LATEcmd = "SELECT late FROM employee WHERE emp_id =" + select_emp_id_number;
+                                                                    String LATEcmd = "SELECT late FROM employee WHERE emp_id =" + select_emp_id_number;
 
-            SqlCeCommand LATESqlCommand = new SqlCeCommand(LATEcmd, mySqlConnection);
+                                                                    SqlCeCommand LATESqlCommand = new SqlCeCommand(LATEcmd, mySqlConnection);
 
-            try
-            {
-                mySqlConnection.Open();
+                                                                    try
+                                                                    {
+                                                                        mySqlConnection.Open();
 
-                SqlCeDataReader LATESqlDataReader = LATESqlCommand.ExecuteReader();
+                                                                        SqlCeDataReader LATESqlDataReader = LATESqlCommand.ExecuteReader();
 
-                lbxEmployees.Items.Clear();
+                                                                        lbxEmployees.Items.Clear();
 
-                while (LATESqlDataReader.Read())
-                {
+                                                                        while (LATESqlDataReader.Read())
+                                                                        {
 
-                    //lbxEmployees.Items.Add("Late: " + LATESqlDataReader["late"]); // TESTING
-                    LATE = LATESqlDataReader["late"].ToString();
-                    late = int.Parse(LATE);
-                    yourlate = late + 1;
+                                                                            //lbxEmployees.Items.Add("Late: " + LATESqlDataReader["late"]); // TESTING
+                                                                            LATE = LATESqlDataReader["late"].ToString();
+                                                                            late = int.Parse(LATE);
+                                                                            yourlate = late + 1;
 
-                }
+                                                                        }
 
-            }
+                                                                    }
 
-            catch (SqlCeException ex)
-            {
-                MessageBox.Show(" .." + ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+                                                                    catch (SqlCeException ex)
+                                                                    {
+                                                                        MessageBox.Show(" .." + ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                                    }
 
 
-        }
+                                                                }
 
 
 
@@ -358,13 +373,40 @@ namespace EmployeePerformanceSystem
                     {
                         select_emp_id_number = int.Parse(SELECT_EMP_ID_STRING);
 
+                        /*
                         Absence.checkEmp(select_emp_id_number);
+                        Absence.checkStartDate(send_start_date);
                         
                         //
                         int ReceiveFormAbsence = 0;
                         ReceiveFormAbsence = Absence.get_select_emp_id_number(select_emp_id_number);
                         textBox2.Text = ReceiveFormAbsence.ToString();
                         //
+
+
+                        //
+                        DateTime sendStartDate;
+                        sendStartDate = Absence.get_start_date(send_start_date);
+                        textBox3.Text = sendStartDate.ToString();
+                        //
+
+
+                        //
+                        int sendExplainedAbsences = 0;
+                        sendExplainedAbsences = Absence.get_explained_absences(send_explained_absences);
+                        textBox4.Text = sendExplainedAbsences.ToString();
+                        //
+
+
+                        //
+                        int sendUnexplainedAbsences = 0;
+                        sendUnexplainedAbsences = Absence.get_unexplained_absences(send_unexplained_absences);
+                        textBox5.Text = sendUnexplainedAbsences.ToString();
+                        //
+
+                        */
+
+
 
                         populateListBox();
                     }
@@ -419,6 +461,39 @@ namespace EmployeePerformanceSystem
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            //
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Absence.checkEmp(select_emp_id_number);
+            Absence.checkStartDate(send_start_date);
+
+            //
+            int ReceiveFormAbsence = 0;
+            ReceiveFormAbsence = Absence.get_select_emp_id_number(select_emp_id_number);
+            textBox2.Text = ReceiveFormAbsence.ToString();
+            //
+
+
+            //
+            DateTime sendStartDate;
+            sendStartDate = Absence.get_start_date(send_start_date);
+            textBox3.Text = sendStartDate.ToString();
+            //
+
+
+            //
+            int sendExplainedAbsences = 0;
+            sendExplainedAbsences = Absence.get_explained_absences(send_explained_absences);
+            textBox4.Text = sendExplainedAbsences.ToString();
+            //
+
+
+            //
+            int sendUnexplainedAbsences = 0;
+            sendUnexplainedAbsences = Absence.get_unexplained_absences(send_unexplained_absences);
+            textBox5.Text = sendUnexplainedAbsences.ToString();
             //
         }
 
