@@ -274,76 +274,81 @@ namespace EmployeePerformanceSystem
         private void button1_Click(object sender, EventArgs e)
         {
             selectLates();
-            
-            try
+
+            if (checkInputs())
             {
-                //this.punctual_time_label.Text = current_time.ToString("HH:mm:ss");
-                EMP_ID_STRING = emp_id_field.Text;
 
-                if (System.Text.RegularExpressions.Regex.IsMatch(EMP_ID_STRING, "[^0-9]"))
+                try
                 {
-                    MessageBox.Show("Please enter only numbers.");
-                    emp_id_field.Clear();
+                    //this.punctual_time_label.Text = current_time.ToString("HH:mm:ss");
+                    EMP_ID_STRING = emp_id_field.Text;
 
-                }
-
-                else
-                {
-                    emp_id_number = int.Parse(EMP_ID_STRING);
-                    ///////////////////////////////////////////////////////////////////////////////////////////////
-                    //selectLates();
-
-                    // PRINTING THE EMP_ID_STRING TO THE LABEL ON THE INTERFACE
-                    this.ID_Selected_label.Text = EMP_ID_STRING;
-                    
-                    // NOT NEEDED HERE - THIS WOULD BE NEEDED FOR ATTENDANCE
-                    // MAKING all the 'pdates' the same as 'cdates'
-                    /*
-                    PDAY = CDAY;
-                    pday = cday;
-                    PMONTH = CMONTH;
-                    pmonth = cmonth;
-                    PYEAR = CYEAR;
-                    pyear = cyear;
-                    */
-
-                    entered_hours = chours;
-                    entered_minutes = cminutes;
-                    entered_seconds = cseconds;
-                    
-
-                    // SET PUNCTUAL TIME
-                    PHOURS = punctual_time.ToString("HH");
-                    phours = int.Parse(PHOURS);
-
-                    CMINUTES = punctual_time.ToString("mm");
-                    cminutes = int.Parse(CMINUTES);
-
-                    PSECONDS = punctual_time.ToString("ss");
-                    pseconds = int.Parse(PSECONDS);
-
-                    // SETTING TIME ENTERED ON INTERFACE "..."
-                    this.time_entered_label.Text = current_time.ToString("HH:mm:ss");
-
-
-                    // CHECKING IF THE EMPLOYEE HAS ENTERED THE BUILDING LATE
-                   
-                    // THIS WILL CHECK IF THE EMPLOYEE IS LATE, HOWEVER IT IS WITHIN 10AM
-                    if (phours == entered_hours && pminutes <= entered_minutes)
+                    if (System.Text.RegularExpressions.Regex.IsMatch(EMP_ID_STRING, "[^0-9]"))
                     {
-                        updateLates();
+                        MessageBox.Show("Please enter only numbers.");
+                        emp_id_field.Clear();
+
                     }
 
-                    // THIS WILL HAPPEN IF THE EMPLOYEE HAS ENTERED AT 10AM OR LATER (THIS IS JUST FOR HOURS)
-                    else if (phours < entered_hours)
+                    else
                     {
-                        updateLates();
+                        emp_id_number = int.Parse(EMP_ID_STRING);
+                        ///////////////////////////////////////////////////////////////////////////////////////////////
+                        //selectLates();
+
+                        // PRINTING THE EMP_ID_STRING TO THE LABEL ON THE INTERFACE
+                        this.ID_Selected_label.Text = EMP_ID_STRING;
+
+                        // NOT NEEDED HERE - THIS WOULD BE NEEDED FOR ATTENDANCE
+                        // MAKING all the 'pdates' the same as 'cdates'
+                        /*
+                        PDAY = CDAY;
+                        pday = cday;
+                        PMONTH = CMONTH;
+                        pmonth = cmonth;
+                        PYEAR = CYEAR;
+                        pyear = cyear;
+                        */
+
+                        entered_hours = chours;
+                        entered_minutes = cminutes;
+                        entered_seconds = cseconds;
+
+
+                        // SET PUNCTUAL TIME
+                        PHOURS = punctual_time.ToString("HH");
+                        phours = int.Parse(PHOURS);
+
+                        PMINUTES = punctual_time.ToString("mm");
+                        pminutes = int.Parse(PMINUTES);
+
+                        PSECONDS = punctual_time.ToString("ss");
+                        pseconds = int.Parse(PSECONDS);
+
+                        // SETTING TIME ENTERED ON INTERFACE "..."
+                        this.time_entered_label.Text = current_time.ToString("HH:mm:ss");
+
+
+                        // CHECKING IF THE EMPLOYEE HAS ENTERED THE BUILDING LATE
+
+                        // THIS WILL CHECK IF THE EMPLOYEE IS LATE, HOWEVER IT IS WITHIN 10AM
+                        if (phours == entered_hours && pminutes <= entered_minutes)
+                        {
+                            updateLates();
+                        }
+
+                        // THIS WILL HAPPEN IF THE EMPLOYEE HAS ENTERED AT 10AM OR LATER (THIS IS JUST FOR HOURS)
+                        else if (phours < entered_hours)
+                        {
+                            updateLates();
+                        }
+
                     }
+                }
+                catch
+                {
 
                 }
-            }
-            catch
-            {
 
             }
 
@@ -469,6 +474,7 @@ namespace EmployeePerformanceSystem
             Absence.checkEmp(select_emp_id_number);
             Absence.checkStartDate(send_start_date);
 
+            /*
             //
             int ReceiveFormAbsence = 0;
             ReceiveFormAbsence = Absence.get_select_emp_id_number(select_emp_id_number);
@@ -495,6 +501,17 @@ namespace EmployeePerformanceSystem
             sendUnexplainedAbsences = Absence.get_unexplained_absences(send_unexplained_absences);
             textBox5.Text = sendUnexplainedAbsences.ToString();
             //
+            */
+
+            //DateTime sendjustdate;
+            //sendjustdate = current_time.ToShortDateString;
+            
+            //textBox1.Text = sendjustdate.ToString();
+
+
+            double attendance;
+            attendance = Absence.get_data(select_emp_id_number, send_start_date, current_time , send_explained_absences, send_unexplained_absences);
+            textBox6.Text = attendance.ToString();
         }
 
     }

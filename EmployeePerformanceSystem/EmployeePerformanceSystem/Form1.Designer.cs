@@ -51,6 +51,9 @@
             this.textBox5 = new System.Windows.Forms.TextBox();
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.button2 = new System.Windows.Forms.Button();
+            this.textBox6 = new System.Windows.Forms.TextBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // button1
@@ -160,7 +163,7 @@
             // show_data_button
             // 
             this.show_data_button.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.show_data_button.Location = new System.Drawing.Point(25, 136);
+            this.show_data_button.Location = new System.Drawing.Point(25, 158);
             this.show_data_button.Name = "show_data_button";
             this.show_data_button.Size = new System.Drawing.Size(140, 38);
             this.show_data_button.TabIndex = 12;
@@ -173,7 +176,7 @@
             this.lbxEmployees.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbxEmployees.FormattingEnabled = true;
             this.lbxEmployees.ItemHeight = 16;
-            this.lbxEmployees.Location = new System.Drawing.Point(26, 193);
+            this.lbxEmployees.Location = new System.Drawing.Point(26, 215);
             this.lbxEmployees.Name = "lbxEmployees";
             this.lbxEmployees.Size = new System.Drawing.Size(938, 36);
             this.lbxEmployees.TabIndex = 13;
@@ -182,7 +185,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.label5.Location = new System.Drawing.Point(196, 145);
+            this.label5.Location = new System.Drawing.Point(196, 167);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(157, 20);
             this.label5.TabIndex = 14;
@@ -191,7 +194,7 @@
             // search_emp_field
             // 
             this.search_emp_field.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.search_emp_field.Location = new System.Drawing.Point(354, 142);
+            this.search_emp_field.Location = new System.Drawing.Point(354, 164);
             this.search_emp_field.Name = "search_emp_field";
             this.search_emp_field.Size = new System.Drawing.Size(62, 26);
             this.search_emp_field.TabIndex = 15;
@@ -199,7 +202,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(158, 318);
+            this.label6.Location = new System.Drawing.Point(141, 557);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(35, 13);
             this.label6.TabIndex = 17;
@@ -207,7 +210,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(283, 275);
+            this.button3.Location = new System.Drawing.Point(37, 551);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
             this.button3.TabIndex = 18;
@@ -217,47 +220,76 @@
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(535, 263);
+            this.textBox2.Location = new System.Drawing.Point(545, 444);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(100, 20);
+            this.textBox2.Size = new System.Drawing.Size(130, 20);
             this.textBox2.TabIndex = 19;
             // 
             // textBox3
             // 
-            this.textBox3.Location = new System.Drawing.Point(534, 315);
+            this.textBox3.Location = new System.Drawing.Point(544, 496);
             this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(100, 20);
+            this.textBox3.Size = new System.Drawing.Size(131, 20);
             this.textBox3.TabIndex = 20;
             // 
             // textBox5
             // 
-            this.textBox5.Location = new System.Drawing.Point(535, 415);
+            this.textBox5.Location = new System.Drawing.Point(545, 596);
             this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(100, 20);
+            this.textBox5.Size = new System.Drawing.Size(130, 20);
             this.textBox5.TabIndex = 21;
             // 
             // textBox4
             // 
-            this.textBox4.Location = new System.Drawing.Point(535, 360);
+            this.textBox4.Location = new System.Drawing.Point(545, 541);
             this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(100, 20);
+            this.textBox4.Size = new System.Drawing.Size(130, 20);
             this.textBox4.TabIndex = 22;
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(89, 411);
+            this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button2.Location = new System.Drawing.Point(533, 158);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.Size = new System.Drawing.Size(140, 38);
             this.button2.TabIndex = 23;
-            this.button2.Text = "button2";
+            this.button2.Text = "Show Attendance";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // textBox6
+            // 
+            this.textBox6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox6.Location = new System.Drawing.Point(901, 167);
+            this.textBox6.Name = "textBox6";
+            this.textBox6.Size = new System.Drawing.Size(63, 26);
+            this.textBox6.TabIndex = 24;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(37, 598);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(100, 20);
+            this.textBox1.TabIndex = 25;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.label7.Location = new System.Drawing.Point(770, 170);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(100, 20);
+            this.label7.TabIndex = 26;
+            this.label7.Text = "Attendance: ";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(994, 639);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.textBox6);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.textBox4);
             this.Controls.Add(this.textBox5);
@@ -311,6 +343,9 @@
         private System.Windows.Forms.TextBox textBox5;
         private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.TextBox textBox6;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label label7;
     }
 }
 
