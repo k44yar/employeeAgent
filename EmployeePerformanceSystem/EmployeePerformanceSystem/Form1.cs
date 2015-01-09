@@ -11,40 +11,27 @@ using System.Data.SqlServerCe;
 
 namespace EmployeePerformanceSystem
 {
-        // --- ASK - Everything you write has to be with in "public partial class Form1 : Form {}"
+    //ASK - Everything you write has to be with in "public partial class Form1 : Form {}"
     public partial class Form1 : Form
     {
-        SqlCeConnection mySqlConnection; //     --- ASK - For sql connection
+        SqlCeConnection mySqlConnection; //ASK - For sql connection
 
-        // GLOBAL VARIABLES                                       --- ASK - Global Varaibales being assigned
+        // GLOBAL VARIABLES
         private DateTime time_entered; // the time the employee signed in
 
-        private DateTime punctual_time = new DateTime(0001, 01, 01, 09, 2, 00); //make this into a const after you find 
-        //out the format to set it to 9am everyday.
+        private DateTime punctual_time = new DateTime(0001, 01, 01, 09, 2, 00); // only time needed (punctual time) - first 3 parameters are not important
 
         private DateTime current_time; //this captures the current time and date
 
-        //private DateTime current_date = DateTime.Now; TESTING PURPOSES
-
-
-        private bool ontime; //is the user on time? yes/no? (true, false)
-
-        // for days
+        // for current day
         private string CDAY;
         private int cday;
-        private string PDAY;
-        private int pday;
 
         private string CMONTH;
         private int cmonth;
-        private string PMONTH;
-        private int pmonth;
 
         private string CYEAR;
         private int cyear;
-        private string PYEAR;
-        private int pyear;
-
 
         // for time
         private string CHOURS;
@@ -62,98 +49,98 @@ namespace EmployeePerformanceSystem
         private string PSECONDS;
         private int pseconds;
 
-        private string ENTERED_SECONDS;
+        // time entered by employee
         private int entered_seconds;
-
-        private string ENTERED_MINUTES;
         private int entered_minutes;
-
-        private string ENTERED_HOURS;
         private int entered_hours;
 
+        // employee id being converted to string from a textbox and then an int BUTTON_1
         private string EMP_ID_STRING;
         private int emp_id_number;
 
+        // selected employee id being converted to string from a textbox and then an int SHOW_DATA_BUTTON
         private string SELECT_EMP_ID_STRING;
         private int select_emp_id_number;
 
-        private string LATE;
-        private int late;
-        private int yourlate;
-
+        // these variables have been created to send over start_date, explained_absences, unexplained_absences to the Absence class for computation
+        // storing from sql statement
         DateTime send_start_date;
         int send_explained_absences;
         int send_unexplained_absences;
 
+        // this variable has been created to send late to the Punctuality class
+        // storing from the same sql statement as the variables above
         int send_late;
 
+        // needed to convert auth_id to string from textbox and then make it into a number
         string AUTH_ID;
         int auth_id;
 
 
-        // --- ASK - This method is the first method run when the program starts. STARTING POINT
-        
+        //ASK - This method is the first method run when the program starts. STARTING POINT
+
         public Form1()
         {
             InitializeComponent();
 
             populateListBox();
 
-            timer1.Start(); // starts timer
+            timer1.Start(); // Starts the Timer
 
-            this.punctual_time_label.Text = punctual_time.ToString("HH:mm:ss");
+            this.punctual_time_label.Text = punctual_time.ToString("HH:mm:ss"); // present punctual time (formatted just to show time)
 
-            //this.label6.Text = current_date.ToString("dd/MM/yyyy"); TESTING PURPOSE
         }
         
 
 
-        // THE TIMER HERE IS PICKING UP THE CURRENT TIME
+        //ASK - IN THIS METHOD ALL THE CURRENT DATE AND TIME DATA IS BEING COLLECTED WHEN TIMER IS RUNNING
         private void timer1_Tick(object sender, EventArgs e)
         {
             // FOR CURRENT TIME
             current_time = DateTime.Now;
 
-            CDAY = current_time.ToString("dd");
+            CDAY = current_time.ToString("dd"); // formatted for days
             cday = int.Parse(CDAY);
 
-            CMONTH = current_time.ToString("mm");
+            CMONTH = current_time.ToString("mm"); // formatted for month
             cmonth = int.Parse(CMONTH);
 
-            CYEAR = current_time.ToString("yyyy");
+            CYEAR = current_time.ToString("yyyy"); // formatted for year
             cyear = int.Parse(CYEAR);
 
-            CHOURS = current_time.ToString("HH");
+            CHOURS = current_time.ToString("HH"); // formatted for hours
             chours = int.Parse(CHOURS);
 
-            CMINUTES = current_time.ToString("mm");
+            CMINUTES = current_time.ToString("mm"); // formatted for minutes
             cminutes = int.Parse(CMINUTES);
 
-            CSECONDS = current_time.ToString("ss");
+            CSECONDS = current_time.ToString("ss"); // formatted for seconds
             cseconds = int.Parse(CSECONDS);
 
 
-            this.time_label.Text = current_time.ToString("HH:mm:ss");
-
-            //this.time_label.Text = cminutes.ToString(); //TESTING PURPOSE
+            this.time_label.Text = current_time.ToString("HH:mm:ss"); // present current time on display (formatted to show time only)
 
         }
 
 
+        
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         public void populateListBox()
         {
-            mySqlConnection = new SqlCeConnection(@"Data Source=C:\Users\Sufian\AppData\Local\EmployeeDatabase.sdf");
-
-            //String selcmd = "SELECT * FROM employee ORDER BY emp_id";
-
-            String selcmd = "SELECT * FROM employee WHERE emp_id =" + select_emp_id_number + " ORDER BY emp_id";
-
-            SqlCeCommand mySqlCommand = new SqlCeCommand(selcmd, mySqlConnection);
-
             try
             {
+                // this way of connecting to a database is more professional
+                // ConnectionString1 has been predefined as the path to find the employee database
+
+                string ConnString = Properties.Settings.Default.ConnectionString1;
+                mySqlConnection = new SqlCeConnection(ConnString);
                 mySqlConnection.Open();
+
+                String selcmd = "SELECT * FROM employee WHERE emp_id =" + select_emp_id_number + " ORDER BY emp_id";
+
+                SqlCeCommand mySqlCommand = new SqlCeCommand(selcmd, mySqlConnection);
 
                 SqlCeDataReader mySqlDataReader = mySqlCommand.ExecuteReader();
 
@@ -161,10 +148,6 @@ namespace EmployeePerformanceSystem
 
                 while (mySqlDataReader.Read())
                 {
-                    // THIS IS FOR TESTING - example of using the datetime to subtract
-                    //send_start_date = DateTime.Parse(mySqlDataReader["start_date"].ToString());
-                    
-
                     lbxEmployees.Items.Add("ID: " + mySqlDataReader["emp_id"] + "   Name: " + mySqlDataReader["name"] + "   Job Role: " + mySqlDataReader["job_role"] + "   Start Date " + mySqlDataReader["start_date"] + "   Late: " + mySqlDataReader["late"] + "   Explained Absences: " + mySqlDataReader["explained_absences"] + "   Unexplained Absences: " + mySqlDataReader["unexplained_absences"]);
 
                     // THIS IS NEEDED FOR THE ABSENCE CLASS
@@ -181,6 +164,7 @@ namespace EmployeePerformanceSystem
                     string ooo = mySqlDataReader["late"].ToString();
                     send_late = int.Parse(ooo);
 
+                    mySqlConnection.Close();
                 }
 
             }
@@ -195,75 +179,7 @@ namespace EmployeePerformanceSystem
 
 
 
-
-
-        /* UNDERNEATH YOU HAVE MANAGED TO UPDATE THE EMPLOYEE TABLE - HOWEVER ITS HARDCODED IT SETS LATE
-           TO 10, YOU NEED TO MAKE ANOTHER METHOD WHICH OBTAINS THE VALUE OF THE EMPLOYEE WHICH CAME IN LATE */
-
-                                                               //REGARDING LATES
-        /*
-                                                                public void updateLates()
-                                                                {
-                                                                    mySqlConnection = new SqlCeConnection(@"Data Source=C:\Users\Sufian\AppData\Local\EmployeeDatabase.sdf");
-
-                                                                    //String LATEcmd = "SELECT late FROM employee WHERE emp_id =" + emp_id_number;
-                                                                    String updatecmd = "UPDATE employee SET late =" + yourlate + "WHERE emp_id =" + emp_id_number;
-
-                                                                    SqlCeCommand mySqlCommand = new SqlCeCommand(updatecmd, mySqlConnection);
-
-                                                                    try
-                                                                    {
-                                                                        mySqlConnection.Open();
-
-                                                                        SqlCeDataReader mySqlDataReader = mySqlCommand.ExecuteReader();
-
-                                                                        lbxEmployees.Items.Clear();
-                                                                    }
-
-                                                                    catch (SqlCeException ex)
-                                                                    {
-                                                                        MessageBox.Show(" .." + ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                                                    }
-
-                                                                }
-
-                                                                public void selectLates()
-                                                                {
-                                                                    mySqlConnection = new SqlCeConnection(@"Data Source=C:\Users\Sufian\AppData\Local\EmployeeDatabase.sdf");
-
-                                                                    String LATEcmd = "SELECT late FROM employee WHERE emp_id =" + select_emp_id_number;
-
-                                                                    SqlCeCommand LATESqlCommand = new SqlCeCommand(LATEcmd, mySqlConnection);
-
-                                                                    try
-                                                                    {
-                                                                        mySqlConnection.Open();
-
-                                                                        SqlCeDataReader LATESqlDataReader = LATESqlCommand.ExecuteReader();
-
-                                                                        lbxEmployees.Items.Clear();
-
-                                                                        while (LATESqlDataReader.Read())
-                                                                        {
-
-                                                                            //lbxEmployees.Items.Add("Late: " + LATESqlDataReader["late"]); // TESTING
-                                                                            LATE = LATESqlDataReader["late"].ToString();
-                                                                            late = int.Parse(LATE);
-                                                                            yourlate = late + 1;
-
-                                                                        }
-
-                                                                    }
-
-                                                                    catch (SqlCeException ex)
-                                                                    {
-                                                                        MessageBox.Show(" .." + ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                                                    }
-
-
-                                                                }*/
-
-
+        //ASK - checking if the input entered is a numeric value
 
         public bool checkInputs()
         {
@@ -271,7 +187,7 @@ namespace EmployeePerformanceSystem
 
             if (string.IsNullOrEmpty(search_emp_field.Text))
             {
-                MessageBox.Show("Error: Please check your inputs");
+                MessageBox.Show("Error: Please check your input is a number, or the function has not yet been activated by your superior yet");
                 rtnvalue = false;
             }
 
@@ -279,7 +195,7 @@ namespace EmployeePerformanceSystem
         }
 
 
-
+        //ASK - when this button is clicked the following code triggers (EMPLOYEE ENTERED)
         private void button1_Click(object sender, EventArgs e)
         {
             if (checkInputs())
@@ -287,55 +203,53 @@ namespace EmployeePerformanceSystem
 
                 try
                 {
-                    //this.punctual_time_label.Text = current_time.ToString("HH:mm:ss");
-                    EMP_ID_STRING = emp_id_field.Text;
+                    EMP_ID_STRING = emp_id_field.Text;// obtaining the emp_id in the emp field as a string
 
                     if (System.Text.RegularExpressions.Regex.IsMatch(EMP_ID_STRING, "[^0-9]"))
                     {
-                        MessageBox.Show("Please enter only numbers.");
-                        emp_id_field.Clear();
-
+                        emp_id_field.Clear();// if the input is not correct the field is cleared
                     }
 
                     else
                     {
-                        emp_id_number = int.Parse(EMP_ID_STRING);
-                        ///////////////////////////////////////////////////////////////////////////////////////////////
-                        //selectLates();
+                        emp_id_number = int.Parse(EMP_ID_STRING);// emp_id officially becomes a number here
 
-                        // PRINTING THE EMP_ID_STRING TO THE LABEL ON THE INTERFACE
+
+                        // Displaying the Employee ID on the windows form (assurance reasons)
                         this.ID_Selected_label.Text = EMP_ID_STRING;
 
-
+                        //ASK - current time is assigned to the entered variables to clock the employee in
                         entered_hours = chours;
                         entered_minutes = cminutes;
                         entered_seconds = cseconds;
 
 
-                        // SET PUNCTUAL TIME
-                        PHOURS = punctual_time.ToString("HH");
+                        //ASK - SET PUNCTUAL TIME
+                        PHOURS = punctual_time.ToString("HH"); //obtain just hours
                         phours = int.Parse(PHOURS);
 
-                        PMINUTES = punctual_time.ToString("mm");
+                        PMINUTES = punctual_time.ToString("mm"); //obtain just minutes
                         pminutes = int.Parse(PMINUTES);
 
-                        PSECONDS = punctual_time.ToString("ss");
+                        PSECONDS = punctual_time.ToString("ss"); //obtain just seconds
                         pseconds = int.Parse(PSECONDS);
 
-                        // SETTING TIME ENTERED ON INTERFACE "..."
+                        // setting time entered on display for assurance reasons
                         this.time_entered_label.Text = current_time.ToString("HH:mm:ss");
 
-                        
+                        //ASK - this method is sending the data needed by the Punctuality class to do the computation needed regarding lates
                         int late_percentage;
                         late_percentage = Punctuality.get_late(emp_id_number, send_late, phours, pminutes, pseconds, entered_hours, entered_minutes, entered_seconds);
 
+                        //ASK - after the button has been clicked the report produced is cleared to avoid confusuion
                         lbxEmployees.Items.Clear();
  
                     }
                 }
+
                 catch
                 {
-
+                    //nothing needs to happen
                 }
 
             }
@@ -343,14 +257,14 @@ namespace EmployeePerformanceSystem
         }
 
 
-
+        //ASK - similar function to the button1 - clicking this button displays the employee data
         private void show_data_button_Click(object sender, EventArgs e)
         {
             if (checkInputs())
             {
                 try
                 {
-                    SELECT_EMP_ID_STRING = search_emp_field.Text;
+                    SELECT_EMP_ID_STRING = search_emp_field.Text;// obtaining the search_emp_id in the search_emp field as a string
                     
                     if (System.Text.RegularExpressions.Regex.IsMatch(SELECT_EMP_ID_STRING, "[^0-9]"))
                     {
@@ -361,106 +275,29 @@ namespace EmployeePerformanceSystem
 
                     else
                     {
-                        select_emp_id_number = int.Parse(SELECT_EMP_ID_STRING);
+                        select_emp_id_number = int.Parse(SELECT_EMP_ID_STRING); //select_emp_id offically becomes a int here
 
-                        populateListBox();
+                        populateListBox(); // calls the populateListBox method to display the data
                     }
                 }
 
                 catch
                 {
-
+                    //nothing needs to happen here
                 }
             }
 
         }
 
      
-        // I AM TRYING TO USE THIS GET METHOD IN THE 'Absences.cs' CLASS
-        public int get_select_emp_id_number()
-        {
-            return select_emp_id_number;
-        }
-
-
-        private void punctal_time_label_Click(object sender, EventArgs e)
-        {
-            //NOT NEEDED BUT HAS TO STAY OR APPLICATION CRASHES
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-            //NOT NEEDED BUT HAS TO STAY OR APPLICATION CRASHES
-        }
-
-
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            //dateFunction(current_time, eg_start_date);
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            /*
-            button1.Visible = true;
-            label2.Visible = true;
-            time_label.Visible = true;
-            label4.Visible = true;
-            emp_id_field.Visible = true;
-            label1.Visible = true;
-            punctual_time_label.Visible = true;
-            label3.Visible = true;
-            time_entered_label.Visible = true;
-            ID_Selected_label.Visible = true;
-            */
-
-
-            /*
-            mySqlConnection = new SqlCeConnection(@"Data Source=C:\Users\Sufian\AppData\Local\EmployeeDatabase.sdf");
-
-            //String selcmd = "SELECT * FROM employee ORDER BY emp_id";
-
-            String selcmd = "SELECT * FROM employee WHERE emp_id =" + select_emp_id_number + " ORDER BY emp_id";
-
-            SqlCeCommand mySqlCommand = new SqlCeCommand(selcmd, mySqlConnection);
-
-            try
-            {
-                mySqlConnection.Open();
-
-                SqlCeDataReader mySqlDataReader = mySqlCommand.ExecuteReader();
-
-                lbxEmployees.Items.Clear();
-
-                while (mySqlDataReader.Read())
-                {
-                    // THIS IS FOR TESTING - example of using the datetime to subtract
-                    //send_start_date = DateTime.Parse(mySqlDataReader["start_date"].ToString());
-
-
-
-                }
-
-            }
-
-            catch (SqlCeException ex)
-            {
-
-                MessageBox.Show(" .." + ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-
-            */
-        }
-
-
-
+       
+        // the following code is triggered to calculate the attendance of the employee.
         private void button2_Click(object sender, EventArgs e)
         {
             Absence.checkEmp(select_emp_id_number);
             Absence.checkStartDate(send_start_date);
 
+            // sending the appropraite data to the Absence class
             double attendance;
             attendance = Absence.get_data(select_emp_id_number, send_start_date, current_time , send_explained_absences, send_unexplained_absences);
             textBox6.Text = attendance.ToString();
@@ -468,20 +305,14 @@ namespace EmployeePerformanceSystem
 
 
 
-        private void textBox7_TextChanged(object sender, EventArgs e)
-        {
-            //MessageBox.Show("hello");
-        }
-
-
-
+        // following code is triggered to check authentication id
         private void auth_id_ok_Click(object sender, EventArgs e)
         {
             try
             {
-                //this.punctual_time_label.Text = current_time.ToString("HH:mm:ss");
                 AUTH_ID = textBox7.Text;
-
+                
+                // checking if input is a number
                 if (System.Text.RegularExpressions.Regex.IsMatch(AUTH_ID, "[^0-9]"))
                 {
                     MessageBox.Show("Please enter only numbers.");
@@ -491,7 +322,15 @@ namespace EmployeePerformanceSystem
 
                 else
                 {
+                    //Auth ID 100 allows user to only clock employees in
+                    //Auth ID 101 allows user to only check employees details
+                    
                     auth_id = int.Parse(AUTH_ID);
+
+
+                    ///////////////////////////////////////////////////////////////////////////////////
+
+
 
                     if (auth_id != 101)
                     {
@@ -521,8 +360,9 @@ namespace EmployeePerformanceSystem
                     }
 
 
+                    ///////////////////////////////////////////////////////////////////////////////////
 
-
+                    
                     if (auth_id != 100)
                     {
                         button1.Visible = false;
@@ -553,14 +393,16 @@ namespace EmployeePerformanceSystem
                         time_entered_label.Visible = true;
                         ID_Selected_label.Visible = true;
                     }
-                   
+
+                    ///////////////////////////////////////////////////////////////////////////////////
+
 
                 }
             }
 
             catch
             {
-
+                // nothing needs to happen
             }
         }
 
