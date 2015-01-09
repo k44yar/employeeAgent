@@ -493,20 +493,7 @@ namespace EmployeePerformanceSystem
                 {
                     auth_id = int.Parse(AUTH_ID);
 
-                    /*
-                    if (auth_id == 10)
-                    {
-                        show_data_button.Visible = true;
-                        label5.Visible = true;
-                        search_emp_field.Visible = true;
-                        button2.Visible = true;
-                        label7.Visible = true;
-                        textBox6.Visible = true;
-                        lbxEmployees.Visible = true;
-                    }
-                    */ 
-
-                    if (auth_id != 10)
+                    if (auth_id != 101)
                     {
                         show_data_button.Visible = false;
                         label5.Visible = false;
@@ -515,26 +502,13 @@ namespace EmployeePerformanceSystem
                         label7.Visible = false;
                         textBox6.Visible = false;
                         lbxEmployees.Visible = false;
+                        
                     }
 
-                    /*
-                    if (auth_id == 9)
-                    {
-                        button1.Visible = true;
-                        label2.Visible = true;
-                        time_label.Visible = true;
-                        label4.Visible = true;
-                        emp_id_field.Visible = true;
-                        label1.Visible = true;
-                        punctual_time_label.Visible = true;
-                        label3.Visible = true;
-                        time_entered_label.Visible = true;
-                        ID_Selected_label.Visible = true;
-                    }
-                    */ 
 
-                    
-                    if (auth_id == 10)
+
+
+                    if (auth_id == 101)
                     {
                         show_data_button.Visible = true;
                         label5.Visible = true;
@@ -543,6 +517,31 @@ namespace EmployeePerformanceSystem
                         label7.Visible = true;
                         textBox6.Visible = true;
                         lbxEmployees.Visible = true;
+                        
+                    }
+
+
+
+
+                    if (auth_id != 100)
+                    {
+                        button1.Visible = false;
+                        label2.Visible = false;
+                        time_label.Visible = false;
+                        label4.Visible = false;
+                        emp_id_field.Visible = false;
+                        label1.Visible = false;
+                        punctual_time_label.Visible = false;
+                        label3.Visible = false;
+                        time_entered_label.Visible = false;
+                        ID_Selected_label.Visible = false;
+                    }
+
+
+
+                    
+                    if (auth_id == 100)
+                    {
                         button1.Visible = true;
                         label2.Visible = true;
                         time_label.Visible = true;
@@ -554,7 +553,7 @@ namespace EmployeePerformanceSystem
                         time_entered_label.Visible = true;
                         ID_Selected_label.Visible = true;
                     }
-                    
+                   
 
                 }
             }
