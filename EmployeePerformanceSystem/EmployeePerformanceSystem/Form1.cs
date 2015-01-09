@@ -85,6 +85,11 @@ namespace EmployeePerformanceSystem
         int send_explained_absences;
         int send_unexplained_absences;
 
+        int send_late;
+
+        string AUTH_ID;
+        int auth_id;
+
 
         // --- ASK - This method is the first method run when the program starts. STARTING POINT
         
@@ -173,6 +178,9 @@ namespace EmployeePerformanceSystem
                     string xxx = mySqlDataReader["unexplained_absences"].ToString();
                     send_unexplained_absences = int.Parse(xxx);
 
+                    string ooo = mySqlDataReader["late"].ToString();
+                    send_late = int.Parse(ooo);
+
                 }
 
             }
@@ -193,6 +201,7 @@ namespace EmployeePerformanceSystem
            TO 10, YOU NEED TO MAKE ANOTHER METHOD WHICH OBTAINS THE VALUE OF THE EMPLOYEE WHICH CAME IN LATE */
 
                                                                //REGARDING LATES
+        /*
                                                                 public void updateLates()
                                                                 {
                                                                     mySqlConnection = new SqlCeConnection(@"Data Source=C:\Users\Sufian\AppData\Local\EmployeeDatabase.sdf");
@@ -252,7 +261,7 @@ namespace EmployeePerformanceSystem
                                                                     }
 
 
-                                                                }
+                                                                }*/
 
 
 
@@ -273,8 +282,6 @@ namespace EmployeePerformanceSystem
 
         private void button1_Click(object sender, EventArgs e)
         {
-            selectLates();
-
             if (checkInputs())
             {
 
@@ -299,16 +306,6 @@ namespace EmployeePerformanceSystem
                         // PRINTING THE EMP_ID_STRING TO THE LABEL ON THE INTERFACE
                         this.ID_Selected_label.Text = EMP_ID_STRING;
 
-                        // NOT NEEDED HERE - THIS WOULD BE NEEDED FOR ATTENDANCE
-                        // MAKING all the 'pdates' the same as 'cdates'
-                        /*
-                        PDAY = CDAY;
-                        pday = cday;
-                        PMONTH = CMONTH;
-                        pmonth = cmonth;
-                        PYEAR = CYEAR;
-                        pyear = cyear;
-                        */
 
                         entered_hours = chours;
                         entered_minutes = cminutes;
@@ -328,21 +325,12 @@ namespace EmployeePerformanceSystem
                         // SETTING TIME ENTERED ON INTERFACE "..."
                         this.time_entered_label.Text = current_time.ToString("HH:mm:ss");
 
+                        
+                        int late_percentage;
+                        late_percentage = Punctuality.get_late(emp_id_number, send_late, phours, pminutes, pseconds, entered_hours, entered_minutes, entered_seconds);
 
-                        // CHECKING IF THE EMPLOYEE HAS ENTERED THE BUILDING LATE
-
-                        // THIS WILL CHECK IF THE EMPLOYEE IS LATE, HOWEVER IT IS WITHIN 10AM
-                        if (phours == entered_hours && pminutes <= entered_minutes)
-                        {
-                            updateLates();
-                        }
-
-                        // THIS WILL HAPPEN IF THE EMPLOYEE HAS ENTERED AT 10AM OR LATER (THIS IS JUST FOR HOURS)
-                        else if (phours < entered_hours)
-                        {
-                            updateLates();
-                        }
-
+                        lbxEmployees.Items.Clear();
+ 
                     }
                 }
                 catch
@@ -358,9 +346,6 @@ namespace EmployeePerformanceSystem
 
         private void show_data_button_Click(object sender, EventArgs e)
         {
-            
-            //Absence.AbsenceWriteToLogFile("Absence "); 
-
             if (checkInputs())
             {
                 try
@@ -378,41 +363,6 @@ namespace EmployeePerformanceSystem
                     {
                         select_emp_id_number = int.Parse(SELECT_EMP_ID_STRING);
 
-                        /*
-                        Absence.checkEmp(select_emp_id_number);
-                        Absence.checkStartDate(send_start_date);
-                        
-                        //
-                        int ReceiveFormAbsence = 0;
-                        ReceiveFormAbsence = Absence.get_select_emp_id_number(select_emp_id_number);
-                        textBox2.Text = ReceiveFormAbsence.ToString();
-                        //
-
-
-                        //
-                        DateTime sendStartDate;
-                        sendStartDate = Absence.get_start_date(send_start_date);
-                        textBox3.Text = sendStartDate.ToString();
-                        //
-
-
-                        //
-                        int sendExplainedAbsences = 0;
-                        sendExplainedAbsences = Absence.get_explained_absences(send_explained_absences);
-                        textBox4.Text = sendExplainedAbsences.ToString();
-                        //
-
-
-                        //
-                        int sendUnexplainedAbsences = 0;
-                        sendUnexplainedAbsences = Absence.get_unexplained_absences(send_unexplained_absences);
-                        textBox5.Text = sendUnexplainedAbsences.ToString();
-                        //
-
-                        */
-
-
-
                         populateListBox();
                     }
                 }
@@ -426,20 +376,6 @@ namespace EmployeePerformanceSystem
         }
 
      
-        /* KEEP THIS JUST INCASE
-        // use this to find out the attendance - THIS IS AN EXAMPLE
-        private void dateFunction(DateTime current_time, DateTime eg_start_date)
-        {
-            System.TimeSpan diff1 = current_time.Subtract(eg_start_date);
-            
-            lbxEmployees.Items.Add("Today: " + current_time.ToShortDateString() + "..... " + " Start Date: " + eg_start_date.ToShortDateString() + "..... " + " diiference is " + diff1.Days + " days."); // TESTING
-        } 
-        */
-
-
-
-
-
         // I AM TRYING TO USE THIS GET METHOD IN THE 'Absences.cs' CLASS
         public int get_select_emp_id_number()
         {
@@ -466,52 +402,167 @@ namespace EmployeePerformanceSystem
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            //
+            /*
+            button1.Visible = true;
+            label2.Visible = true;
+            time_label.Visible = true;
+            label4.Visible = true;
+            emp_id_field.Visible = true;
+            label1.Visible = true;
+            punctual_time_label.Visible = true;
+            label3.Visible = true;
+            time_entered_label.Visible = true;
+            ID_Selected_label.Visible = true;
+            */
+
+
+            /*
+            mySqlConnection = new SqlCeConnection(@"Data Source=C:\Users\Sufian\AppData\Local\EmployeeDatabase.sdf");
+
+            //String selcmd = "SELECT * FROM employee ORDER BY emp_id";
+
+            String selcmd = "SELECT * FROM employee WHERE emp_id =" + select_emp_id_number + " ORDER BY emp_id";
+
+            SqlCeCommand mySqlCommand = new SqlCeCommand(selcmd, mySqlConnection);
+
+            try
+            {
+                mySqlConnection.Open();
+
+                SqlCeDataReader mySqlDataReader = mySqlCommand.ExecuteReader();
+
+                lbxEmployees.Items.Clear();
+
+                while (mySqlDataReader.Read())
+                {
+                    // THIS IS FOR TESTING - example of using the datetime to subtract
+                    //send_start_date = DateTime.Parse(mySqlDataReader["start_date"].ToString());
+
+
+
+                }
+
+            }
+
+            catch (SqlCeException ex)
+            {
+
+                MessageBox.Show(" .." + ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+
+            */
         }
+
+
 
         private void button2_Click(object sender, EventArgs e)
         {
             Absence.checkEmp(select_emp_id_number);
             Absence.checkStartDate(send_start_date);
 
-            /*
-            //
-            int ReceiveFormAbsence = 0;
-            ReceiveFormAbsence = Absence.get_select_emp_id_number(select_emp_id_number);
-            textBox2.Text = ReceiveFormAbsence.ToString();
-            //
-
-
-            //
-            DateTime sendStartDate;
-            sendStartDate = Absence.get_start_date(send_start_date);
-            textBox3.Text = sendStartDate.ToString();
-            //
-
-
-            //
-            int sendExplainedAbsences = 0;
-            sendExplainedAbsences = Absence.get_explained_absences(send_explained_absences);
-            textBox4.Text = sendExplainedAbsences.ToString();
-            //
-
-
-            //
-            int sendUnexplainedAbsences = 0;
-            sendUnexplainedAbsences = Absence.get_unexplained_absences(send_unexplained_absences);
-            textBox5.Text = sendUnexplainedAbsences.ToString();
-            //
-            */
-
-            //DateTime sendjustdate;
-            //sendjustdate = current_time.ToShortDateString;
-            
-            //textBox1.Text = sendjustdate.ToString();
-
-
             double attendance;
             attendance = Absence.get_data(select_emp_id_number, send_start_date, current_time , send_explained_absences, send_unexplained_absences);
             textBox6.Text = attendance.ToString();
+        }
+
+
+
+        private void textBox7_TextChanged(object sender, EventArgs e)
+        {
+            //MessageBox.Show("hello");
+        }
+
+
+
+        private void auth_id_ok_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                //this.punctual_time_label.Text = current_time.ToString("HH:mm:ss");
+                AUTH_ID = textBox7.Text;
+
+                if (System.Text.RegularExpressions.Regex.IsMatch(AUTH_ID, "[^0-9]"))
+                {
+                    MessageBox.Show("Please enter only numbers.");
+                    textBox7.Clear();
+
+                }
+
+                else
+                {
+                    auth_id = int.Parse(AUTH_ID);
+
+                    /*
+                    if (auth_id == 10)
+                    {
+                        show_data_button.Visible = true;
+                        label5.Visible = true;
+                        search_emp_field.Visible = true;
+                        button2.Visible = true;
+                        label7.Visible = true;
+                        textBox6.Visible = true;
+                        lbxEmployees.Visible = true;
+                    }
+                    */ 
+
+                    if (auth_id != 10)
+                    {
+                        show_data_button.Visible = false;
+                        label5.Visible = false;
+                        search_emp_field.Visible = false;
+                        button2.Visible = false;
+                        label7.Visible = false;
+                        textBox6.Visible = false;
+                        lbxEmployees.Visible = false;
+                    }
+
+                    /*
+                    if (auth_id == 9)
+                    {
+                        button1.Visible = true;
+                        label2.Visible = true;
+                        time_label.Visible = true;
+                        label4.Visible = true;
+                        emp_id_field.Visible = true;
+                        label1.Visible = true;
+                        punctual_time_label.Visible = true;
+                        label3.Visible = true;
+                        time_entered_label.Visible = true;
+                        ID_Selected_label.Visible = true;
+                    }
+                    */ 
+
+                    
+                    if (auth_id == 10)
+                    {
+                        show_data_button.Visible = true;
+                        label5.Visible = true;
+                        search_emp_field.Visible = true;
+                        button2.Visible = true;
+                        label7.Visible = true;
+                        textBox6.Visible = true;
+                        lbxEmployees.Visible = true;
+                        button1.Visible = true;
+                        label2.Visible = true;
+                        time_label.Visible = true;
+                        label4.Visible = true;
+                        emp_id_field.Visible = true;
+                        label1.Visible = true;
+                        punctual_time_label.Visible = true;
+                        label3.Visible = true;
+                        time_entered_label.Visible = true;
+                        ID_Selected_label.Visible = true;
+                    }
+                    
+
+                }
+            }
+
+            catch
+            {
+
+            }
         }
 
     }

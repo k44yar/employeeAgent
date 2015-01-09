@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Data.SqlServerCe;
 
 namespace EmployeePerformanceSystem
 {
@@ -38,10 +39,82 @@ namespace EmployeePerformanceSystem
 
         }
 
+        /*
         public int getLate()
         {
             return late;
         }
+        */
+
+        public static int get_late(int empl_id, int late, int phours, int pminutes, int pseconds, int entered_hours, int entered_minutes, int entered_seconds)
+        {
+            
+            int yourlate = late + 1;
+
+            SqlCeConnection mySqlConnection = new SqlCeConnection(@"Data Source=C:\Users\Sufian\AppData\Local\EmployeeDatabase.sdf");
+
+
+            if (phours == entered_hours && pminutes <= entered_minutes)
+            {
+                //updateLates();  //IMPORTANT TO UPDATE 
+
+                String updatecmd = "UPDATE employee SET late =" + yourlate + " WHERE emp_id = " + empl_id;
+
+                SqlCeCommand mySqlCommand = new SqlCeCommand(updatecmd, mySqlConnection);
+
+                try
+                {
+                    mySqlConnection.Open();
+
+                    SqlCeDataReader mySqlDataReader = mySqlCommand.ExecuteReader();
+
+                    //lbxEmployees.Items.Clear();
+                }
+
+                catch (SqlCeException ex)
+                {
+                   // MessageBox.Show(" .." + ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+
+            // THIS WILL HAPPEN IF THE EMPLOYEE HAS ENTERED AT 10AM OR LATER (THIS IS JUST FOR HOURS)
+            else if (phours < entered_hours)
+            {
+                //updateLates();  //IMPORTANT TO UPDATE LATES
+
+                String updatecmd = "UPDATE employee SET late =" + yourlate + " WHERE emp_id = " + empl_id;
+
+                SqlCeCommand mySqlCommand = new SqlCeCommand(updatecmd, mySqlConnection);
+
+                try
+                {
+                    mySqlConnection.Open();
+
+                    SqlCeDataReader mySqlDataReader = mySqlCommand.ExecuteReader();
+
+                    //lbxEmployees.Items.Clear();
+                }
+
+                catch (SqlCeException ex)
+                {
+                    // MessageBox.Show(" .." + ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            
+            
+            return yourlate;
+        }
+
+
+
+ 
+
+        
+
+        
+
+
+        
 
     }
 }
