@@ -1,4 +1,13 @@
-﻿using System;
+﻿/*
+
+Title: Employee Performance System (EPS)
+created by Abu Sufian Kayar (ASK)
+started development on 27/12/2014
+completed developement on 12/01/2015
+  
+*/
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;

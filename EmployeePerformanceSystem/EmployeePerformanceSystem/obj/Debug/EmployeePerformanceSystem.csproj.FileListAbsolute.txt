@@ -19,3 +19,9 @@ C:\EmployeePerformanceSystem\EmployeePerformanceSystem\obj\Debug\EmployeePerform
 C:\Users\Sufian\Documents\assignment_2\EmployeePerformanceSystem\EmployeePerformanceSystem\bin\Debug\EmployeePerformanceSystem.exe.config
 C:\Users\Sufian\Documents\assignment_2\EmployeePerformanceSystem\EmployeePerformanceSystem\obj\Debug\EmployeePerformanceSystem.exe
 C:\Users\Sufian\Documents\assignment_2\EmployeePerformanceSystem\EmployeePerformanceSystem\obj\Debug\EmployeePerformanceSystem.pdb
+C:\Users\Sufian\Documents\assignment_2\EmployeePerformanceSystem\EmployeePerformanceSystem\bin\Debug\EmployeePerformanceSystem.exe
+C:\Users\Sufian\Documents\assignment_2\EmployeePerformanceSystem\EmployeePerformanceSystem\bin\Debug\EmployeePerformanceSystem.pdb
+C:\Users\Sufian\Documents\assignment_2\EmployeePerformanceSystem\EmployeePerformanceSystem\obj\Debug\EmployeePerformanceSystem.csprojResolveAssemblyReference.cache
+C:\Users\Sufian\Documents\assignment_2\EmployeePerformanceSystem\EmployeePerformanceSystem\obj\Debug\EmployeePerformanceSystem.Form1.resources
+C:\Users\Sufian\Documents\assignment_2\EmployeePerformanceSystem\EmployeePerformanceSystem\obj\Debug\EmployeePerformanceSystem.Properties.Resources.resources
+C:\Users\Sufian\Documents\assignment_2\EmployeePerformanceSystem\EmployeePerformanceSystem\obj\Debug\EmployeePerformanceSystem.csproj.GenerateResource.Cache
